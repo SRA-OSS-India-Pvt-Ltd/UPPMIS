@@ -11,6 +11,30 @@ const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full'
   },
+  {
+    path: 'dashboard',
+    loadChildren: () => import('./pages/dashboard/dashboard.module').then( m => m.DashboardPageModule)
+  },
+  {
+    path: 'formselection',
+    loadChildren: () => import('./pages/formselection/formselection.module').then( m => m.FormselectionPageModule)
+  },
+  {
+    path: 'slitcontent',
+    loadChildren: () => import('./pages/slitcontent/slitcontent.module').then( m => m.SlitcontentPageModule)
+  },
+  {
+    path: 'slumptest',
+    loadChildren: () => import('./pages/slumptest/slumptest.module').then( m => m.SlumptestPageModule)
+  },
+  {
+    path: 'cccube28',
+    loadChildren: () => import('./pages/cccube28/cccube28.module').then( m => m.Cccube28PageModule)
+  },
+  {
+    path: 'seive',
+    loadChildren: () => import('./pages/seive/seive.module').then( m => m.SeivePageModule)
+  },
 ];
 
 @NgModule({

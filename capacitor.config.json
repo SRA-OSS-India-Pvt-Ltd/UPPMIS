@@ -1,6 +1,17 @@
 {
-	"appId": "io.ionic.starter",
-	"appName": "UPPMISIonic",
-	"webDir": "www",
-	"bundledWebRuntime": false
+  "appId": "io.ionic.starter22",
+  "appName": "[name]",
+  "webDir": "www",
+  "bundledWebRuntime": false,
+  "cordova": {
+    "preferences": {
+      "ScrollEnabled": "false",
+      "BackupWebStorage": "none",
+      "SplashMaintainAspectRatio": "true",
+      "FadeSplashScreenDuration": "300",
+      "SplashShowOnlyFirstTime": "false",
+      "SplashScreen": "screen",
+      "SplashScreenDelay": "3000"
+    }
+  }
 }
