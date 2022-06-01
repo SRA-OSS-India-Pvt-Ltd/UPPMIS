@@ -35,6 +35,10 @@ const routes: Routes = [
     path: 'seive',
     loadChildren: () => import('./pages/seive/seive.module').then( m => m.SeivePageModule)
   },
+  {
+    path: 'coarsesingle',
+    loadChildren: () => import('./pages/coarsesingle/coarsesingle.module').then( m => m.CoarsesinglePageModule)
+  },
 ];
 
 @NgModule({

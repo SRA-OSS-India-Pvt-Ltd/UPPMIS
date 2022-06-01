@@ -9,8 +9,8 @@ import { AlertController, Platform } from '@ionic/angular';
 import { ToastserviceService } from './../../services/toastservice.service';
 import { Constants } from 'src/app/common/constants';
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
-import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+
 import * as watermark from 'watermarkjs';
 import SignaturePad from 'signature_pad';
 
@@ -25,17 +25,7 @@ export class Cccube28Page implements AfterViewInit {
   @ViewChild('canvas') canvasEl: ElementRef;
   @ViewChild('canvas1') canvasEl1: ElementRef;
   @ViewChild('canvas2') canvasEl2: ElementRef;
-  options1: CameraOptions = {
-    quality: 100,
-    destinationType: this.camera.DestinationType.FILE_URI,
-    encodingType: this.camera.EncodingType.JPEG,
-    mediaType: this.camera.MediaType.PICTURE,
-    saveToPhotoAlbum: true,
-    allowEdit: true,
-    sourceType:  this.camera.PictureSourceType.CAMERA ,
 
-
-  };
 
   signaturePad;
   signaturePad1;
@@ -107,10 +97,9 @@ export class Cccube28Page implements AfterViewInit {
   strength3: any;
   department: any;
 
-  constructor(private geolocation: Geolocation,
+  constructor(
     private toastSer: ToastserviceService,
     private alertCtrl: AlertController,
-    public camera: Camera,
     private platform: Platform,
     private httpSer: HttpcallsserviceService,
     private router: Router
@@ -129,7 +118,7 @@ this.setViews();
   }
 
   setViews(){
-    this.getLatLong();
+
     this.detailsList = Constants.schemedetailsList.filter((user: any)=>user.work_name.includes(Constants.workName));
    console.log('detailslist: ',this.detailsList);
    if(this.detailsList.length>0){
@@ -146,204 +135,76 @@ this.setViews();
 
   }
 
-  getLatLong() {
-    console.log('Easting,northing');
-    this.loadingLocation = true;
+  locationcheck(){
 
-    this.geolocation.getCurrentPosition()
-      .then((resp) => {
-        console.log(resp);
-        this.locationCordinates = resp.coords;
-        this.loadingLocation = false;
-        this.latitude = this.locationCordinates.latitude;
-        this.longitude = this.locationCordinates.longitude;
-        console.log('lati',this.latitude);
-      });
+
+    if(this.latitude === undefined || this.longitude === undefined
+      ||this.latitude === null || this.longitude === null||
+      this.latitude === '' || this.longitude === ''){
+            this.toastSer.presentError('Please Enter Latitude and Longitude.');
+
+
+    }else{
+      this.takePicture()
     }
-    locationcheck(){
-      this.getLatLong();
-
-      if(this.latitude === undefined || this.longitude === undefined
-        ||this.latitude === null || this.longitude === null||
-        this.latitude === '' || this.longitude === ''){
-          this.getLatLong();
-              this.toastSer.presentError('Please Turn On GPS.');
+  }
 
 
-      }else{
-        this.imageSelection();
-      }
+  locationcheck2(){
+
+
+    if(this.latitude === undefined || this.longitude === undefined
+      ||this.latitude === null || this.longitude === null||
+      this.latitude === '' || this.longitude === ''){
+
+        this.toastSer.presentError('Please Enter Latitude and Longitude.');
+
+
+    }else{
+      this.takePicture2()
     }
+  }
 
 
-    locationcheck2(){
-      this.getLatLong();
+  async takePicture() {
+    const image = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: true,
+      correctOrientation: true,
+      resultType: CameraResultType.Uri,
+      source: CameraSource.Camera
+    });
 
-      if(this.latitude === undefined || this.longitude === undefined
-        ||this.latitude === null || this.longitude === null||
-        this.latitude === '' || this.longitude === ''){
-          this.getLatLong();
-              this.toastSer.presentError('Please Turn On GPS.');
+    this.originalImage = image.webPath;
 
+    fetch(this.originalImage)
+    .then((res) => res.blob())
+    .then((blob) => {
+      this.blobImage = blob;
+      this.watermarkImage();
+    });
 
-      }else{
-        this.imageSelection2();
-      }
-    }
-    async imageSelection() {
-      this.getLatLong();
+  }
 
+  async takePicture2() {
+    const image = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: true,
+      correctOrientation: true,
+      resultType: CameraResultType.Uri,
+      source: CameraSource.Camera
+    });
 
-      const alert = await this.alertCtrl.create({
-        header: 'Choose Type',
-        buttons: [
-          {
-            text: 'Camera',
-            handler: (redc) => {
+    this.originalImage2pic = image.webPath;
 
-              this.platform.ready().then(() => {
-                if (this.platform.is('android')) {
-                  this.snap();
-                } else {
-                  //  this.addDatabase();
+    fetch(this.originalImage2pic)
+    .then((res) => res.blob())
+    .then((blob) => {
+      this.blobImagepic2 = blob;
+      this.watermarkImagepic2();
+    });
 
-                  this.takeSnap();
-                }
-
-            });
-
-          },
-          },
-        ],
-      });
-      alert.present();
-    }
-
-    async imageSelection2() {
-      this.getLatLong();
-
-
-      const alert = await this.alertCtrl.create({
-        header: 'Choose Type',
-        buttons: [
-          {
-            text: 'Camera',
-            handler: (redc) => {
-
-              this.platform.ready().then(() => {
-                if (this.platform.is('android')) {
-                  this.snap2();
-                } else {
-                  //  this.addDatabase();
-
-                  this.takeSnap2();
-                }
-
-            });
-
-          },
-          },
-        ],
-      });
-      alert.present();
-    }
-
-    snap(){
-      const options: CameraOptions = {
-        quality: 100,
-        targetHeight: 320,
-        targetWidth: 320,
-        correctOrientation: true,
-
-        destinationType: this.camera.DestinationType.FILE_URI,
-        sourceType: this.camera.PictureSourceType.CAMERA,
-        encodingType: this.camera.EncodingType.JPEG,
-        mediaType: this.camera.MediaType.PICTURE
-      };
-
-      this.camera.getPicture(options).then((imgFileUri) => {
-       // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-       this.item56 = (<any>window).Ionic.WebView.convertFileSrc(imgFileUri);
-
-       fetch(this.item56)
-       .then((res) => res.blob())
-       .then((blob) => {
-         this.blobImage = blob;
-         this.watermarkImage();
-       });
-
-      }, (err) => {
-       console.log(err);
-      });
-
-    }
-
-    snap2(){
-      const options: CameraOptions = {
-        quality: 100,
-        targetHeight: 320,
-        targetWidth: 320,
-        correctOrientation: true,
-
-        destinationType: this.camera.DestinationType.FILE_URI,
-        sourceType: this.camera.PictureSourceType.CAMERA,
-        encodingType: this.camera.EncodingType.JPEG,
-        mediaType: this.camera.MediaType.PICTURE
-      };
-
-      this.camera.getPicture(options).then((imgFileUri) => {
-       // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-       this.itemboreholepic2 = (<any>window).Ionic.WebView.convertFileSrc(imgFileUri);
-
-       fetch(this.itemboreholepic2)
-       .then((res) => res.blob())
-       .then((blob) => {
-         this.blobImagepic2 = blob;
-         this.watermarkImagepic2();
-       });
-
-      }, (err) => {
-       console.log(err);
-      });
-
-    }
-
-    takeSnap() {
-      this.camera.getPicture(this.options1).then(
-        (imageData) => {
-          this.originalImage = 'data:image/jpeg;base64,' + imageData;
-
-          fetch(this.originalImage)
-            .then((res) => res.blob())
-            .then((blob) => {
-              this.blobImage = blob;
-              this.watermarkImage();
-            });
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-    }
-
-
-    takeSnap2() {
-      this.camera.getPicture(this.options1).then(
-        (imageData) => {
-          this.originalImage2pic = 'data:image/jpeg;base64,' + imageData;
-
-          fetch(this.originalImage2pic)
-            .then((res) => res.blob())
-            .then((blob) => {
-              this.blobImagepic2 = blob;
-              this.watermarkImagepic2();
-            });
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-    }
+  }
 
 
     watermarkImage() {

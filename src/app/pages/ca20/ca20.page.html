@@ -3,7 +3,8 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/formselection"></ion-back-button>
     </ion-buttons>
-    <ion-title style="white-space: pre-wrap !important;">Slit Content Test</ion-title>
+    <ion-title style="white-space: pre-wrap !important;"> Coarse Aggregate - Sieve Analysis Graded(20mm)
+    </ion-title>
 
 
   </ion-toolbar>
@@ -111,13 +112,28 @@
         <ion-col size="12">
           <ion-item class="input">
             <ion-label>Date of Testing</ion-label>
-            <ion-input value="{{ date | date: 'dd-MM-yyyy' }}" id="date" >
+            <ion-input value="{{ date4 | date: 'dd-MM-yyyy' }}" id="date4" >
             </ion-input>
-            <ion-popover trigger="date" size="cover">
+            <ion-popover trigger="date4" size="cover">
               <ng-template>
-                <ion-datetime presentation="date" [(ngModel)]="date"></ion-datetime>
+                <ion-datetime presentation="datesda4" [(ngModel)]="date4"></ion-datetime>
               </ng-template>
             </ion-popover>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+
+
+      <ion-row>
+        <ion-col size="6">
+          <ion-item class="padding">
+            <ion-label style="white-space: pre-wrap !important;"><strong>Material Source	</strong></ion-label>
+          </ion-item>
+        </ion-col>
+        <ion-col size="6">
+          <ion-item class="input">
+            <ion-input type="text" cass="input" [(ngModel)]="materialSource"></ion-input>
           </ion-item>
         </ion-col>
       </ion-row>
@@ -139,134 +155,258 @@
       <ion-row>
         <ion-col size="6">
           <ion-item class="padding">
-            <ion-label style="white-space: pre-wrap !important;"><strong>Type Of Material		</strong></ion-label>
+            <ion-label style="white-space: pre-wrap !important;"><strong>Size of Material			</strong></ion-label>
           </ion-item>
         </ion-col>
         <ion-col size="6">
           <ion-item class="input">
-            <ion-input type="text" cass="input" [(ngModel)]="typeOfMaterial"></ion-input>
+            <ion-input type="text" cass="input" [(ngModel)]="sizeofMaterial"></ion-input>
           </ion-item>
         </ion-col>
-      </ion-row>
-
-      <ion-row>
-        <ion-col size="4">
-          <ion-item class="padding">
-            <ion-label style="white-space: pre-wrap !important;">
-              <strong>Determination No</strong>
-            </ion-label>
-          </ion-item>
-        </ion-col>
-        <ion-col size="4">
-          <ion-item class="padding">
-            <ion-label style="white-space: pre-wrap !important;"><strong>1</strong>
-            </ion-label>
-          </ion-item>
-
-        </ion-col>
-        <ion-col size="4">
-          <ion-item class="padding">
-            <ion-label style="white-space: pre-wrap !important;"><strong>2</strong>
-            </ion-label>
-          </ion-item>
-
-        </ion-col>
-
-      </ion-row>
-
-
-
-      <ion-row>
-        <ion-col size="4">
-          <ion-item class="padding">
-            <ion-label style="white-space: pre-wrap !important;">
-              Total Volume of sample(v1) ml	 </ion-label>
-          </ion-item>
-        </ion-col>
-        <ion-col size="4">
-          <ion-item class="input">
-          <ion-input type="number" [(ngModel)]="sample1"  (ionChange)="testListioner()"></ion-input>
-          </ion-item>
-
-        </ion-col>
-        <ion-col size="4">
-          <ion-item class="input">
-          <ion-input type="number" [(ngModel)]="sample2" (ionChange)="testListioner()"></ion-input>
-          </ion-item>
-
-        </ion-col>
-
-      </ion-row>
-
-
-      <ion-row>
-        <ion-col size="4">
-          <ion-item class="padding">
-            <ion-label style="white-space: pre-wrap !important;">
-              volume slit after 3hr(v2) ml		 </ion-label>
-          </ion-item>
-        </ion-col>
-        <ion-col size="4">
-          <ion-item class="input">
-          <ion-input type="number" [(ngModel)]="sample11" (ionChange)="testListioner()"></ion-input>
-          </ion-item>
-
-        </ion-col>
-        <ion-col size="4">
-          <ion-item class="input">
-          <ion-input type="number" [(ngModel)]="sample22" (ionChange)="testListioner()"></ion-input>
-          </ion-item>
-
-        </ion-col>
-
-      </ion-row>
-
-
-      <ion-row>
-        <ion-col size="4">
-          <ion-item class="padding">
-            <ion-label style="white-space: pre-wrap !important;">Percentage of slit & clay volume			 </ion-label>
-          </ion-item>
-        </ion-col>
-        <ion-col size="4">
-          <ion-item class="input">
-            <ion-label>{{per1}}</ion-label>
-
-          </ion-item>
-
-        </ion-col>
-        <ion-col size="4">
-          <ion-item class="input">
-            <ion-label>{{per2}}</ion-label>
-          </ion-item>
-
-        </ion-col>
-
       </ion-row>
 
       <ion-row>
         <ion-col size="6">
           <ion-item class="padding">
-            <ion-label style="white-space: pre-wrap !important;"><strong> Average of the test Results	</strong>		 </ion-label>
+            <ion-label style="white-space: pre-wrap !important;"><strong>Weight of Sample				</strong></ion-label>
           </ion-item>
         </ion-col>
         <ion-col size="6">
           <ion-item class="input">
-            <ion-label>{{avg}}</ion-label>
-
+          <ion-label>{{weightOfSample}}</ion-label>
           </ion-item>
+        </ion-col>
+      </ion-row>
 
+
+
+      <ion-row>
+        <ion-col size="6">
+          <ion-item class="padding">
+            <ion-label style="white-space: pre-wrap !important;"><strong>Sieve Size	</strong></ion-label>
+          </ion-item>
+        </ion-col>
+        <ion-col size="6">
+          <ion-item class="padding">
+            <ion-label style="white-space: pre-wrap !important;"><strong>Weight Retained (grms)	</strong></ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="6">
+          <ion-item class="padding">
+            <ion-label style="white-space: pre-wrap !important;">40mm	</ion-label>
+          </ion-item>
+        </ion-col>
+        <ion-col size="6">
+          <ion-item class="input">
+          <ion-input type="number" [(ngModel)]="weight1"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="6">
+          <ion-item class="padding">
+            <ion-label style="white-space: pre-wrap !important;">20mm	</ion-label>
+          </ion-item>
+        </ion-col>
+        <ion-col size="6">
+          <ion-item class="input">
+          <ion-input type="number" [(ngModel)]="weight2" (ionChange)="cumweightListioner()"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+
+      <ion-row>
+        <ion-col size="6">
+          <ion-item class="padding">
+            <ion-label style="white-space: pre-wrap !important;">10mm		</ion-label>
+          </ion-item>
+        </ion-col>
+        <ion-col size="6">
+          <ion-item class="input">
+          <ion-input type="number" [(ngModel)]="weight3" (ionChange)="cumweightListioner()"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="6">
+          <ion-item class="padding">
+            <ion-label style="white-space: pre-wrap !important;">4.75mm	</ion-label>
+          </ion-item>
+        </ion-col>
+        <ion-col size="6">
+          <ion-item class="input">
+          <ion-input type="number" [(ngModel)]="weight4" (ionChange)="cumweightListioner()"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+
+
+      <ion-row>
+        <ion-col size="4">
+          <ion-item class="padding">
+            <ion-label style="white-space: pre-wrap !important;"><strong>Cumulative Weight retained in grms	</strong>	</ion-label>
+          </ion-item>
+        </ion-col>
+        <ion-col size="4">
+          <ion-item class="padding">
+            <ion-label style="white-space: pre-wrap !important;"><strong>Cum % weight Retained		</strong>	</ion-label>
+          </ion-item>
+        </ion-col>
+        <ion-col size="4">
+          <ion-item class="padding">
+            <ion-label style="white-space: pre-wrap !important;"><strong>% Passing	</strong>	</ion-label>
+          </ion-item>
         </ion-col>
 
+      </ion-row>
 
+      <ion-row>
+        <ion-col size="4">
+          <ion-item class="input">
+           <ion-input type="number" [(ngModel)]="cumwt1" (ionChange)="cumweightListioner()"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size="4">
+          <ion-item class="input">
+            <ion-input type="number" [(ngModel)]="retainwt1" (ionChange)="cumweightListioner()"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size="4">
+          <ion-item class="input">
+            <ion-input type="number" [(ngModel)]="paasing1" (ionChange)="cumweightListioner()"></ion-input>
+          </ion-item>
+        </ion-col>
+
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="4">
+          <ion-item class="input">
+            <ion-label>{{cumwt2}}</ion-label>
+
+          </ion-item>
+        </ion-col>
+        <ion-col size="4">
+          <ion-item class="input">
+            <ion-label>{{retainwt2}}</ion-label>
+
+          </ion-item>
+        </ion-col>
+        <ion-col size="4">
+          <ion-item class="input">
+            <ion-label>{{paasing2}}</ion-label>
+
+          </ion-item>
+        </ion-col>
+
+      </ion-row>
+
+
+      <ion-row>
+        <ion-col size="4">
+          <ion-item class="input">
+            <ion-label>{{cumwt3}}</ion-label>
+
+          </ion-item>
+        </ion-col>
+        <ion-col size="4">
+          <ion-item class="input">
+            <ion-label>{{retainwt3}}</ion-label>
+
+          </ion-item>
+        </ion-col>
+        <ion-col size="4">
+          <ion-item class="input">
+            <ion-label>{{paasing3}}</ion-label>
+
+          </ion-item>
+        </ion-col>
+
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="4">
+          <ion-item class="input">
+            <ion-label>{{cumwt4}}</ion-label>
+
+          </ion-item>
+        </ion-col>
+        <ion-col size="4">
+          <ion-item class="input">
+            <ion-label>{{retainwt4}}</ion-label>
+
+          </ion-item>
+        </ion-col>
+        <ion-col size="4">
+          <ion-item class="input">
+            <ion-label>{{paasing4}}</ion-label>
+
+          </ion-item>
+        </ion-col>
+
+      </ion-row>
+
+
+
+
+      <ion-row>
+        <ion-col size="12">
+          <ion-item>
+            <ion-label><strong>Specifications % Passing (SINGLE SIZE) </strong></ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="12">
+          <ion-item>
+            <ion-label><strong>20mm </strong></ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+
+
+
+
+      <ion-row>
+        <ion-col size="12">
+          <ion-item class="input">
+            <ion-label style="white-space: pre-wrap !important;">100</ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="12">
+          <ion-item class="input">
+            <ion-label style="white-space: pre-wrap !important;">95-100</ion-label>
+          </ion-item>
+        </ion-col>
       </ion-row>
       <ion-row>
         <ion-col size="12">
-          <ion-item class="padding">
-            <ion-label>Note: Silt Content : Less Than 3%	</ion-label>
+          <ion-item class="input">
+            <ion-label style="white-space: pre-wrap !important;">25-55</ion-label>
           </ion-item>
         </ion-col>
       </ion-row>
+
+      <ion-row>
+        <ion-col size="12">
+          <ion-item class="input">
+            <ion-label style="white-space: pre-wrap !important;">0-10</ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+
 
       <ion-row>
         <ion-col size="12">
@@ -284,13 +424,7 @@
         </ion-col>
       </ion-row>
 
-      <ion-row>
-        <ion-col size="12">
-          <ion-item class="padding">
-            <ion-label style="white-space: pre-wrap !important;">Note: Testing Procedure to be reffered from IS 2386 part 1 to 8 1963 and the limits are recommended from IS 383- 2016</ion-label>
-          </ion-item>
-        </ion-col>
-      </ion-row>
+
       <ion-row>
         <ion-col size="6">
           <ion-item class="padding">

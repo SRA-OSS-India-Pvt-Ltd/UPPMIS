@@ -10,23 +10,20 @@ import { ToastserviceService } from './../../services/toastservice.service';
 import { Constants } from 'src/app/common/constants';
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
-
-
 import * as watermark from 'watermarkjs';
 import SignaturePad from 'signature_pad';
 
 @Component({
-  selector: 'app-seive',
-  templateUrl: './seive.page.html',
-  styleUrls: ['./seive.page.scss'],
+  selector: 'app-coarsesingle',
+  templateUrl: './coarsesingle.page.html',
+  styleUrls: ['./coarsesingle.page.scss'],
 })
-export class SeivePage implements AfterViewInit  {
+export class CoarsesinglePage implements AfterViewInit  {
   @ViewChild('previewimage') waterMarkImage: ElementRef;
   @ViewChild('previewimage2') waterMarkImage2: ElementRef;
   @ViewChild('canvas') canvasEl: ElementRef;
   @ViewChild('canvas1') canvasEl1: ElementRef;
   @ViewChild('canvas2') canvasEl2: ElementRef;
-
 
 
   signaturePad;
@@ -65,7 +62,8 @@ export class SeivePage implements AfterViewInit  {
   originalImage2pic: any;
   dates: any;
   materialSource: any;
-  weightOfSample = 1000;
+  sizeofMaterial: any;
+  weightOfSample = 5000;
   weight1: any;
   weight2: any;
   weight3: any;
@@ -73,8 +71,6 @@ export class SeivePage implements AfterViewInit  {
   weight5: any;
   weight6: any;
   weight7: any;
-  weight8: any;
-
   cumwt1: any;
   cumwt2: any;
   cumwt3: any;
@@ -82,8 +78,6 @@ export class SeivePage implements AfterViewInit  {
   cumwt5: any;
   cumwt6: any;
   cumwt7: any;
-  cumwt8: any;
-
   retainwt1: any;
   retainwt2: any;
   retainwt3: any;
@@ -91,8 +85,6 @@ export class SeivePage implements AfterViewInit  {
   retainwt5: any;
   retainwt6: any;
   retainwt7: any;
-  retainwt8: any;
-
   paasing1: any;
   paasing2: any;
   paasing3: any;
@@ -100,14 +92,11 @@ export class SeivePage implements AfterViewInit  {
   paasing5: any;
   paasing6: any;
   paasing7: any;
-  paasing8: any;
-  total: any;
-  moduls: any;
+
 
   constructor(
     private toastSer: ToastserviceService,
     private alertCtrl: AlertController,
-
     private platform: Platform,
     private httpSer: HttpcallsserviceService,
     private router: Router
@@ -139,8 +128,6 @@ this.setViews();
    this.joindate =new Date().toLocaleString();
 
   }
-
-
 
   locationcheck(){
 
@@ -287,31 +274,29 @@ this.setViews();
     }
 
     cumweightListioner(){
-
-let d12;
-let e12;
-let f12;
-let d13;
-let e13;
-let f13;
-let d14;
-let e14;
-let f14;
-let d15;
-let e15;
-let f15;
-let d16;
-let e16;
-let f16;
-let d17;
-let e17;
-let f17;
-let d18;
-let e18;
-let f18;
-let d19;
-let e19;
-let f19;
+      let c14;
+      let d14;
+      let e14;
+      let j14;
+      let c15;
+      let d15;
+      let e15;
+      let j15;
+      let c16;
+      let d16;
+      let e16;
+      let j16;
+      let c17;
+      let d17;
+      let e17;
+      let j17;
+      let c18;
+      let d18;
+      let e18;
+      let j18;
+      let c19;
+      let d19;
+      let e19;
 
 
 
@@ -319,220 +304,239 @@ let f19;
 
 
 
+      const i10= this.weightOfSample;
+      if(this.cumwt1 !== undefined && this.cumwt1 !== '' && this.cumwt1 !== null &&
+      this.weight2 !== undefined && this.weight2 !== '' && this.weight2 !== null ){
 
-
-
-
-
-
-      const j9= this.weightOfSample;
-
-      if(this.weight1 !== undefined && this.weight1 !== '' && this.weight1 !== null){
-
-
-        const  c12 = parseInt(this.weight1);
-        d12 = c12
-      this.cumwt1 = d12;
-      if(this.cumwt1 !== undefined && this.cumwt1 !== '' && this.cumwt1 !== null){
-        if(d12 !== NaN){
-          e12 = (d12/j9)*100;
-          this.retainwt1 = e12;
-          f12 =((j9-d12)/j9)*100;
-
-          this.paasing1 = f12;
-
-        }
-      }
-
-
-      }
-
-      if(this.weight2 !== undefined && this.weight2 !== '' && this.weight2 !== null &&
-      this.cumwt1 !== undefined && this.cumwt1 !== '' && this.cumwt1 !== null){
-
-
-        const  c13 = parseInt(this.weight2);
-        const  dd12 = parseInt(this.cumwt1);
-
-        d13 = dd12+c13;
-      this.cumwt2 = d13;
+       const  c13 = parseInt(this.cumwt1);
+        const  b14 = parseInt(this.weight2);
+      c14= c13+b14;
+      this.cumwt2 = c14;
       if(this.cumwt2 !== undefined && this.cumwt2 !== '' && this.cumwt2 !== null){
-        if(d13 !== NaN){
-          e13 = (d13/j9)*100;
-          this.retainwt2 = e13;
-          f13 =((j9-d13)/j9)*100;
-
-          this.paasing2 = f13;
+        if(c14 !== NaN){
+          d14 = (c14/i10)*100;
+          this.retainwt2 = d14;
+          e14 =((i10-c14)/i10)*100
+          this.paasing2 = e14;
 
         }
       }
 
 
+      if(this.paasing2 !== undefined && this.paasing2 !== '' && this.paasing2 !== null){
+        if(e14 !== NaN){
+         if(e14 === 100){
+           j14 = 1;
+         }else{
+           j14 = -1;
+         }
+        }
       }
 
-      if(this.weight3 !== undefined && this.weight3 !== '' && this.weight3 !== null &&
-      this.cumwt2 !== undefined && this.cumwt2 !== '' && this.cumwt2 !== null){
 
 
-        const  c14 = parseInt(this.weight3);
-        const  dd13 = parseInt(this.cumwt2);
+      }
 
-        d14 = dd13+c14;
-      this.cumwt3 = d14;
+
+
+
+      if(this.cumwt2 !== undefined && this.cumwt2 !== '' && this.cumwt2 !== null &&
+      this.weight3 !== undefined && this.weight3 !== '' && this.weight3 !== null ){
+
+       const  cc14 = parseInt(this.cumwt2);
+        const  b15 = parseInt(this.weight3);
+       c15= cc14+b15;
+      this.cumwt3 = c15;
       if(this.cumwt3 !== undefined && this.cumwt3 !== '' && this.cumwt3 !== null){
-        if(d14 !== NaN){
-          e14 = (d14/j9)*100;
-          this.retainwt3 = e14;
-          f14 =((j9-d14)/j9)*100;
-
-          this.paasing3 = f14;
+        if(c15 !== NaN){
+          d15 = (c15/i10)*100;
+          this.retainwt3 = d15;
+          e15 =((i10-c15)/i10)*100
+          this.paasing3 = e15;
 
         }
       }
 
 
+      if(this.paasing3 !== undefined && this.paasing3 !== '' && this.paasing3 !== null){
+        if(e15 !== NaN){
+         if(e15 >= 85){
+           j15 = 1;
+         }else{
+           j15 = -1;
+         }
+        }
       }
 
-      if(this.weight4 !== undefined && this.weight4 !== '' && this.weight4 !== null &&
-      this.cumwt3 !== undefined && this.cumwt3 !== '' && this.cumwt3 !== null){
 
 
-        const  c15 = parseInt(this.weight4);
-        const  dd14 = parseInt(this.cumwt3);
+      }
 
-        d15 = dd14+c15;
-      this.cumwt4 = d15;
+
+      if(this.cumwt3 !== undefined && this.cumwt3 !== '' && this.cumwt3 !== null &&
+      this.weight4 !== undefined && this.weight4 !== '' && this.weight4 !== null ){
+
+       const  cc15 = parseInt(this.cumwt3);
+        const  b16 = parseInt(this.weight4);
+       c16= cc15+b16;
+      this.cumwt4 = c16;
       if(this.cumwt4 !== undefined && this.cumwt4 !== '' && this.cumwt4 !== null){
-        if(d15 !== NaN){
-          e15 = (d15/j9)*100;
-          this.retainwt4 = e15;
-          f15 =((j9-d15)/j9)*100;
-
-          this.paasing4 = f15;
+        if(c16 !== NaN){
+          d16 = (c16/i10)*100;
+          this.retainwt4 = d16;
+          e16 =((i10-c16)/i10)*100
+          this.paasing4 = e16;
 
         }
       }
 
 
+      if(this.paasing4 !== undefined && this.paasing4 !== '' && this.paasing4 !== null){
+        if(e16 !== NaN){
+         if(e16 >= 85){
+           j16 = 1;
+         }else{
+           j16= -1;
+         }
+        }
       }
 
 
-      if(this.weight5 !== undefined && this.weight5 !== '' && this.weight5 !== null &&
-      this.cumwt4 !== undefined && this.cumwt4 !== '' && this.cumwt4 !== null){
+
+      }
 
 
-        const  c16 = parseInt(this.weight5);
-        const  dd15 = parseInt(this.cumwt4);
+      if(this.cumwt3 !== undefined && this.cumwt3 !== '' && this.cumwt3 !== null &&
+      this.weight4 !== undefined && this.weight4 !== '' && this.weight4 !== null ){
 
-        d16 = dd15+c16;
-      this.cumwt5 = d16;
+       const  cc15 = parseInt(this.cumwt3);
+        const  b16 = parseInt(this.weight4);
+       c16= cc15+b16;
+      this.cumwt4 = c16;
+      if(this.cumwt4 !== undefined && this.cumwt4 !== '' && this.cumwt4 !== null){
+        if(c16 !== NaN){
+          d16 = (c16/i10)*100;
+          this.retainwt4 = d16;
+          e16 =((i10-c16)/i10)*100
+          this.paasing4 = e16;
+
+        }
+      }
+
+
+      if(this.paasing4 !== undefined && this.paasing4 !== '' && this.paasing4 !== null){
+        if(e16 !== NaN){
+         if(e16 >= 85){
+           j16 = 1;
+         }else{
+           j16= -1;
+         }
+        }
+      }
+
+
+
+      }
+
+      if(this.cumwt4 !== undefined && this.cumwt4 !== '' && this.cumwt4 !== null &&
+      this.weight5 !== undefined && this.weight5 !== '' && this.weight5 !== null ){
+
+       const  cc16 = parseInt(this.cumwt4);
+        const  b17 = parseInt(this.weight5);
+       c17= cc16+b17;
+      this.cumwt5 = c17;
       if(this.cumwt5 !== undefined && this.cumwt5 !== '' && this.cumwt5 !== null){
-        if(d16 !== NaN){
-          e16 = (d16/j9)*100;
-          this.retainwt5 = e16;
-          f16 =((j9-d16)/j9)*100;
+        if(c17 !== NaN){
+          d17 = (c17/i10)*100;
+          this.retainwt5 = d17;
+          e17 =((i10-c17)/i10)*100
+          this.paasing5 = e17;
 
-          this.paasing5 = f16;
-
-          if(f16< 34.5){
-            this.remarks = 'The Tested sample Fine aggregate comes under Zone-1 as per Table-9 Clause 6.3 of IS 383-2016';
-          }else if(f16<59.5){
-            this.remarks ='The Tested sampleFine aggregate comes under Zone-2 as per Table-9 Clause 6.3 of IS 383-2016';
-          }else if(f17<79.5){}
-          this.remarks ='The Tested sample Fine aggregate comes under Zone-3 as per Table-9 Clause 6.3 of IS 383-2016';
-          }else {
-            this.remarks = 'The Tested sample Fine aggregate comes under Zone-4 as per Table-9 Clause 6.3 of IS 383-2016';
-          }
+        }
       }
 
 
+      if(this.paasing5 !== undefined && this.paasing5 !== '' && this.paasing5 !== null){
+        if(e17 !== NaN){
+         if(e17 >= 0 && e17 <=20){
+           j17 = 1;
+         }else{
+           j17= -1;
+         }
+        }
       }
 
 
-      if(this.weight6 !== undefined && this.weight6 !== '' && this.weight6 !== null &&
-      this.cumwt5 !== undefined && this.cumwt5 !== '' && this.cumwt5 !== null){
+
+      }
 
 
-        const  c17 = parseInt(this.weight6);
-        const  dd16 = parseInt(this.cumwt5);
+      if(this.cumwt5 !== undefined && this.cumwt5 !== '' && this.cumwt5 !== null &&
+      this.weight6 !== undefined && this.weight6 !== '' && this.weight6 !== null ){
 
-        d17 = dd16+c17;
-      this.cumwt6 = d17;
+       const  cc17 = parseInt(this.cumwt5);
+        const  b18 = parseInt(this.weight6);
+       c18= cc17+b18;
+      this.cumwt6 = c18;
       if(this.cumwt6 !== undefined && this.cumwt6 !== '' && this.cumwt6 !== null){
-        if(d17 !== NaN){
-          e17 = (d17/j9)*100;
-          this.retainwt6 = e17;
-          f17 =((j9-d17)/j9)*100;
-
-          this.paasing6 = f17;
+        if(c18 !== NaN){
+          d18 = (c18/i10)*100;
+          this.retainwt6 = d18;
+          e18 =((i10-c18)/i10)*100
+          this.paasing6 = e18;
 
         }
       }
 
 
+      if(this.paasing6 !== undefined && this.paasing6 !== '' && this.paasing6 !== null){
+        if(e18 !== NaN){
+         if(e18 >= 0 && e18 <=10){
+           j18 = 1;
+         }else{
+           j18= -1;
+         }
+        }
       }
 
 
-      if(this.weight7 !== undefined && this.weight7 !== '' && this.weight7 !== null &&
-      this.cumwt6 !== undefined && this.cumwt6 !== '' && this.cumwt6 !== null){
 
+      }
 
-        const  c18 = parseInt(this.weight7);
-        const  dd17 = parseInt(this.cumwt6);
+      if(this.cumwt6 !== undefined && this.cumwt6 !== '' && this.cumwt6 !== null &&
+      this.weight7 !== undefined && this.weight7 !== '' && this.weight7 !== null ){
 
-        d18 = dd17+c18;
-      this.cumwt7 = d18;
+       const  cc18 = parseInt(this.cumwt6);
+        const  b19 = parseInt(this.weight7);
+       c19= cc18+b19;
+      this.cumwt7 = c19;
       if(this.cumwt7 !== undefined && this.cumwt7 !== '' && this.cumwt7 !== null){
-        if(d18 !== NaN){
-          e18 = (d18/j9)*100;
-          this.retainwt7 = e18;
-          f18 =((j9-d18)/j9)*100;
-
-          this.paasing7 = f18;
-
-        }
-      }
-
-
-      }
-
-      if(this.weight8 !== undefined && this.weight8 !== '' && this.weight8 !== null &&
-      this.cumwt7 !== undefined && this.cumwt7 !== '' && this.cumwt7 !== null){
-
-
-        const  c19 = parseInt(this.weight8);
-        const  dd18 = parseInt(this.cumwt7);
-
-        d19 = dd18+c19;
-      this.cumwt8 = d19;
-      if(this.cumwt8 !== undefined && this.cumwt8 !== '' && this.cumwt8 !== null){
-        if(d19 !== NaN){
-          e19 = (d19/j9)*100;
-          this.retainwt8 = e19;
-          f19 =((j9-d19)/j9)*100;
-
-          this.paasing8 = f19;
+        if(c19 !== NaN){
+          d19 = (c19/i10)*100;
+          this.retainwt7 = d19;
+          e19=((i10-c19)/i10)*100
+          this.paasing7 = e19;
 
         }
       }
 
 
+
+
+
+
+
+
+
       }
 
 
-
-
-
-
-
-      if(e12 !== undefined && e13 !== undefined && e14 !== undefined && e15 !== undefined
-         && e16!== undefined &&  e17 !== undefined && e18 !== undefined && e19 !== undefined){
-
-          this.total = e12+e13+e14+e15+e16+e17+e18+e19;
-          if(this.total !== undefined && this.total !== NaN){
-          this.moduls = this.total/100;
-          }
-
+      if(j14 !== undefined && j15 !== undefined && j16 !== undefined && j17 !== undefined && j18!== undefined){
+      if(j14 === 1 && j15 === 1 && j16 === 1 && j17 === 1 && j18 === 1){
+        this.remarks ='The Coarse aggregate tested are confirming to the conditions of Table-7 Clause-6.2 of IS 383-2016';
+      }else{
+        this.remarks = '"The Coarse aggregate tested are not confirming to the conditions of Table-7 Clause-6.2 of IS 383-2016'
+      }
 
     }
 
@@ -558,6 +562,12 @@ let f19;
         this.toastSer.presentError('Please Enter Stage of work		')
       }else if(this.stageOfwork === ''){
         this.toastSer.presentError('Please Enter Stage of work		')
+      }else if(this.sizeofMaterial === undefined){
+        this.toastSer.presentError('Please Enter Size of Material	')
+      }else if(this.sizeofMaterial === null){
+        this.toastSer.presentError('Please Enter Size of Material	')
+      }else if(this.sizeofMaterial === ''){
+        this.toastSer.presentError('Please Enter Size of Material	')
       }else if(this.weight1 === undefined){
         this.toastSer.presentError('Please Enter Weight Retained (grms)	 1	')
       }else if(this.weight1 === null){
@@ -611,14 +621,6 @@ let f19;
       }else if(this.weight7 === ''){
         this.toastSer.presentError('Please Enter Weight Retained (grms)	 7	')
       }
-      else if(this.weight8 === undefined){
-        this.toastSer.presentError('Please Enter Weight Retained (grms)	 8	')
-      }else if(this.weight8 === null){
-        this.toastSer.presentError('Please Enter Weight Retained (grms)	 8	')
-      }else if(this.weight8 === ''){
-        this.toastSer.presentError('Please Enter Weight Retained (grms)	 8	')
-      }
-
 
       else if(this.cumwt1 === undefined){
         this.toastSer.presentError('Please Enter Cumulative Weight retained in grms	1	')
@@ -680,7 +682,7 @@ let f19;
           if(window.navigator.connection.type === 'none'){
             this.toastSer.presentError('Please check your internet connection');
          }else{
-          this.httpSer.addSieveTest(Constants.workId,Constants.empid,this.date3,this.materialSource,this.stageOfwork,
+          this.httpSer.addCASingleSizeTest(Constants.workId,Constants.empid,this.date3,this.materialSource,this.sizeofMaterial,this.stageOfwork,
             this.weight1,this.cumwt1,this.retainwt1,this.paasing1,
             this.weight2,this.cumwt2,this.retainwt2,this.paasing2,
             this.weight3,this.cumwt3,this.retainwt3,this.paasing3,
@@ -688,8 +690,6 @@ let f19;
             this.weight5,this.cumwt5,this.retainwt5,this.paasing5,
             this.weight6,this.cumwt6,this.retainwt6,this.paasing6,
             this.weight7,this.cumwt7,this.retainwt7,this.paasing7,
-            this.weight8,this.cumwt8,this.retainwt8,this.paasing8,
-
             this.remarks,this.waterMarkImage.nativeElement.src,
             this.waterMarkImage2.nativeElement.src,this.signaturePad.toDataURL(),this.contractorName,
             this.signaturePad1.toDataURL(),this.upjnName,this.signaturePad2.toDataURL()).subscribe((response: any)=>{
@@ -705,7 +705,7 @@ let f19;
           }
 
         }else{
-          this.httpSer.addSieveTest(Constants.workId,Constants.empid,this.date3,this.materialSource,this.stageOfwork,
+          this.httpSer.addCASingleSizeTest(Constants.workId,Constants.empid,this.date3,this.materialSource,this.sizeofMaterial,this.stageOfwork,
             this.weight1,this.cumwt1,this.retainwt1,this.paasing1,
             this.weight2,this.cumwt2,this.retainwt2,this.paasing2,
             this.weight3,this.cumwt3,this.retainwt3,this.paasing3,
@@ -713,11 +713,10 @@ let f19;
             this.weight5,this.cumwt5,this.retainwt5,this.paasing5,
             this.weight6,this.cumwt6,this.retainwt6,this.paasing6,
             this.weight7,this.cumwt7,this.retainwt7,this.paasing7,
-            this.weight8,this.cumwt8,this.retainwt8,this.paasing8,
-
             this.remarks,this.waterMarkImage.nativeElement.src,
             this.waterMarkImage2.nativeElement.src,this.signaturePad.toDataURL(),this.contractorName,
             this.signaturePad1.toDataURL(),this.upjnName,this.signaturePad2.toDataURL()).subscribe((response: any)=>{
+
               if(response.error === false){
                 this.toastSer.presentSuccess(response.msg)
                 this.router.navigate(['formselection']);
@@ -733,5 +732,4 @@ let f19;
 
     }
 }
-
 

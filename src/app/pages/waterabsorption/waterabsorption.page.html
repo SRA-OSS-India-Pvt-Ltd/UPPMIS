@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/formselection"></ion-back-button>
     </ion-buttons>
-    <ion-title style="white-space: pre-wrap !important;">Slit Content Test</ion-title>
+    <ion-title style="white-space: pre-wrap !important;"> Steel Reinforcement : unit weights test </ion-title>
 
 
   </ion-toolbar>
@@ -111,16 +111,20 @@
         <ion-col size="12">
           <ion-item class="input">
             <ion-label>Date of Testing</ion-label>
-            <ion-input value="{{ date | date: 'dd-MM-yyyy' }}" id="date" >
+            <ion-input value="{{ dates | date: 'dd-MM-yyyy' }}" id="dates" >
             </ion-input>
-            <ion-popover trigger="date" size="cover">
+            <ion-popover trigger="dates" size="cover">
               <ng-template>
-                <ion-datetime presentation="date" [(ngModel)]="date"></ion-datetime>
+                <ion-datetime presentation="datesda67" [(ngModel)]="dates"></ion-datetime>
               </ng-template>
             </ion-popover>
           </ion-item>
         </ion-col>
       </ion-row>
+
+
+
+
 
 
       <ion-row>
@@ -136,161 +140,237 @@
         </ion-col>
       </ion-row>
 
+
+
+
+
+
+      <ion-row>
+        <ion-col size="4">
+          <ion-item class="padding">
+            <ion-label style="white-space: pre-wrap !important;"><strong>S.No		</strong></ion-label>
+          </ion-item>
+        </ion-col>
+        <ion-col size="4">
+          <ion-item class="padding">
+            <ion-label style="white-space: pre-wrap !important;"><strong>Dry Weight (W1) in gms			</strong></ion-label>
+          </ion-item>
+        </ion-col>
+        <ion-col size="4">
+          <ion-item class="padding">
+            <ion-label style="white-space: pre-wrap !important;"><strong>Wet Weight (W2) in gms			</strong></ion-label>
+          </ion-item>
+        </ion-col>
+
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="4">
+          <ion-item class="input">
+            <ion-label style="white-space: pre-wrap !important;">1	</ion-label>
+          </ion-item>
+        </ion-col>
+        <ion-col size="4">
+          <ion-item class="input">
+            <ion-input type="number" [(ngModel)]="weight1" (ngModelChange)="cumweightListioner()"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size="4">
+          <ion-item class="input">
+            <ion-input type="number" [(ngModel)]="weight21" (ngModelChange)="cumweightListioner()"></ion-input>
+          </ion-item>
+        </ion-col>
+
+      </ion-row>
+
+
+      <ion-row>
+        <ion-col size="4">
+          <ion-item class="input">
+            <ion-label style="white-space: pre-wrap !important;">2	</ion-label>
+          </ion-item>
+        </ion-col>
+        <ion-col size="4">
+          <ion-item class="input">
+            <ion-input type="number" [(ngModel)]="weight2" (ngModelChange)="cumweightListioner()"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size="4">
+          <ion-item class="input">
+            <ion-input type="number" [(ngModel)]="weight22" (ngModelChange)="cumweightListioner()"></ion-input>
+          </ion-item>
+        </ion-col>
+
+      </ion-row>
+
+
+      <ion-row>
+        <ion-col size="4">
+          <ion-item class="input">
+            <ion-label style="white-space: pre-wrap !important;">3	</ion-label>
+          </ion-item>
+        </ion-col>
+        <ion-col size="4">
+          <ion-item class="input">
+            <ion-input type="number" [(ngModel)]="weight3" (ngModelChange)="cumweightListioner()"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size="4">
+          <ion-item class="input">
+            <ion-input type="number" [(ngModel)]="weight23" (ngModelChange)="cumweightListioner()"></ion-input>
+          </ion-item>
+        </ion-col>
+
+      </ion-row>
+
+
+
+
+
+
+
+
+
+      <ion-row>
+        <ion-col size="4">
+          <ion-item class="padding">
+            <ion-label style="white-space: pre-wrap !important;"><strong>S.No		</strong></ion-label>
+          </ion-item>
+        </ion-col>
+        <ion-col size="4">
+          <ion-item class="padding">
+            <ion-label style="white-space: pre-wrap !important;"><strong>Weight Of Water (W2 - W1) gms				</strong></ion-label>
+          </ion-item>
+        </ion-col>
+        <ion-col size="4">
+          <ion-item class="padding">
+            <ion-label style="white-space: pre-wrap !important;"><strong>% of Water Absoption =((W2 - W1)/W1)x100
+            </strong></ion-label>
+          </ion-item>
+        </ion-col>
+
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="4">
+          <ion-item class="input">
+            <ion-label style="white-space: pre-wrap !important;">1	</ion-label>
+          </ion-item>
+        </ion-col>
+        <ion-col size="4">
+          <ion-item class="input">
+            <ion-label style="white-space: pre-wrap !important;">{{diff1}}</ion-label>
+
+          </ion-item>
+        </ion-col>
+        <ion-col size="4">
+          <ion-item class="input">
+          <ion-label style="white-space: pre-wrap !important;">{{per1}}</ion-label>
+          </ion-item>
+        </ion-col>
+
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="4">
+          <ion-item class="input">
+            <ion-label style="white-space: pre-wrap !important;">2	</ion-label>
+          </ion-item>
+        </ion-col>
+        <ion-col size="4">
+          <ion-item class="input">
+            <ion-label style="white-space: pre-wrap !important;">{{diff2}}</ion-label>
+
+          </ion-item>
+        </ion-col>
+        <ion-col size="4">
+          <ion-item class="input">
+          <ion-label style="white-space: pre-wrap !important;">{{per2}}</ion-label>
+          </ion-item>
+        </ion-col>
+
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="4">
+          <ion-item class="input">
+            <ion-label style="white-space: pre-wrap !important;">3	</ion-label>
+          </ion-item>
+        </ion-col>
+        <ion-col size="4">
+          <ion-item class="input">
+            <ion-label style="white-space: pre-wrap !important;">{{diff3}}</ion-label>
+
+          </ion-item>
+        </ion-col>
+        <ion-col size="4">
+          <ion-item class="input">
+          <ion-label style="white-space: pre-wrap !important;">{{per3}}</ion-label>
+          </ion-item>
+        </ion-col>
+
+      </ion-row>
+
+
+
       <ion-row>
         <ion-col size="6">
           <ion-item class="padding">
-            <ion-label style="white-space: pre-wrap !important;"><strong>Type Of Material		</strong></ion-label>
+            <ion-label style="white-space: pre-wrap !important;"><strong>Total</strong>	</ion-label>
           </ion-item>
         </ion-col>
         <ion-col size="6">
           <ion-item class="input">
-            <ion-input type="text" cass="input" [(ngModel)]="typeOfMaterial"></ion-input>
-          </ion-item>
-        </ion-col>
-      </ion-row>
-
-      <ion-row>
-        <ion-col size="4">
-          <ion-item class="padding">
-            <ion-label style="white-space: pre-wrap !important;">
-              <strong>Determination No</strong>
-            </ion-label>
-          </ion-item>
-        </ion-col>
-        <ion-col size="4">
-          <ion-item class="padding">
-            <ion-label style="white-space: pre-wrap !important;"><strong>1</strong>
-            </ion-label>
-          </ion-item>
-
-        </ion-col>
-        <ion-col size="4">
-          <ion-item class="padding">
-            <ion-label style="white-space: pre-wrap !important;"><strong>2</strong>
-            </ion-label>
-          </ion-item>
-
-        </ion-col>
-
-      </ion-row>
-
-
-
-      <ion-row>
-        <ion-col size="4">
-          <ion-item class="padding">
-            <ion-label style="white-space: pre-wrap !important;">
-              Total Volume of sample(v1) ml	 </ion-label>
-          </ion-item>
-        </ion-col>
-        <ion-col size="4">
-          <ion-item class="input">
-          <ion-input type="number" [(ngModel)]="sample1"  (ionChange)="testListioner()"></ion-input>
-          </ion-item>
-
-        </ion-col>
-        <ion-col size="4">
-          <ion-item class="input">
-          <ion-input type="number" [(ngModel)]="sample2" (ionChange)="testListioner()"></ion-input>
-          </ion-item>
-
-        </ion-col>
-
-      </ion-row>
-
-
-      <ion-row>
-        <ion-col size="4">
-          <ion-item class="padding">
-            <ion-label style="white-space: pre-wrap !important;">
-              volume slit after 3hr(v2) ml		 </ion-label>
-          </ion-item>
-        </ion-col>
-        <ion-col size="4">
-          <ion-item class="input">
-          <ion-input type="number" [(ngModel)]="sample11" (ionChange)="testListioner()"></ion-input>
-          </ion-item>
-
-        </ion-col>
-        <ion-col size="4">
-          <ion-item class="input">
-          <ion-input type="number" [(ngModel)]="sample22" (ionChange)="testListioner()"></ion-input>
-          </ion-item>
-
-        </ion-col>
-
-      </ion-row>
-
-
-      <ion-row>
-        <ion-col size="4">
-          <ion-item class="padding">
-            <ion-label style="white-space: pre-wrap !important;">Percentage of slit & clay volume			 </ion-label>
-          </ion-item>
-        </ion-col>
-        <ion-col size="4">
-          <ion-item class="input">
-            <ion-label>{{per1}}</ion-label>
+            <ion-label style="white-space: pre-wrap !important;">{{total}}</ion-label>
 
           </ion-item>
-
         </ion-col>
-        <ion-col size="4">
-          <ion-item class="input">
-            <ion-label>{{per2}}</ion-label>
-          </ion-item>
 
-        </ion-col>
 
       </ion-row>
 
       <ion-row>
         <ion-col size="6">
           <ion-item class="padding">
-            <ion-label style="white-space: pre-wrap !important;"><strong> Average of the test Results	</strong>		 </ion-label>
+            <ion-label style="white-space: pre-wrap !important;"><strong>Average</strong>	</ion-label>
           </ion-item>
         </ion-col>
         <ion-col size="6">
           <ion-item class="input">
-            <ion-label>{{avg}}</ion-label>
+            <ion-label style="white-space: pre-wrap !important;">{{average}}</ion-label>
 
           </ion-item>
-
         </ion-col>
 
 
       </ion-row>
+
+
+
+
+
+
       <ion-row>
         <ion-col size="12">
           <ion-item class="padding">
-            <ion-label>Note: Silt Content : Less Than 3%	</ion-label>
+             <ion-label style="white-space: pre-wrap !important;"><strong>Remarks: </strong></ion-label>
           </ion-item>
         </ion-col>
       </ion-row>
 
-      <ion-row>
-        <ion-col size="12">
-          <ion-item class="padding">
-            <ion-label><strong >Remarks </strong></ion-label>
-          </ion-item>
-        </ion-col>
-      </ion-row>
+
+
 
       <ion-row>
         <ion-col size="12">
           <ion-item class="input">
-            <ion-label>{{remarks}}</ion-label>
+             <ion-label style="white-space: pre-wrap !important;">{{remarks}}</ion-label>
           </ion-item>
         </ion-col>
       </ion-row>
 
-      <ion-row>
-        <ion-col size="12">
-          <ion-item class="padding">
-            <ion-label style="white-space: pre-wrap !important;">Note: Testing Procedure to be reffered from IS 2386 part 1 to 8 1963 and the limits are recommended from IS 383- 2016</ion-label>
-          </ion-item>
-        </ion-col>
-      </ion-row>
+
+
       <ion-row>
         <ion-col size="6">
           <ion-item class="padding">
@@ -317,6 +397,8 @@
           </ion-item>
         </ion-col>
       </ion-row>
+
+
 
 
 

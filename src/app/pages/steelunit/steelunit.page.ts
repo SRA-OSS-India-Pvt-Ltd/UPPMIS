@@ -11,16 +11,15 @@ import { Constants } from 'src/app/common/constants';
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
-
 import * as watermark from 'watermarkjs';
 import SignaturePad from 'signature_pad';
 
 @Component({
-  selector: 'app-slumptest',
-  templateUrl: './slumptest.page.html',
-  styleUrls: ['./slumptest.page.scss'],
+  selector: 'app-steelunit',
+  templateUrl: './steelunit.page.html',
+  styleUrls: ['./steelunit.page.scss'],
 })
-export class SlumptestPage implements AfterViewInit {
+export class SteelunitPage implements AfterViewInit  {
   @ViewChild('previewimage') waterMarkImage: ElementRef;
   @ViewChild('previewimage2') waterMarkImage2: ElementRef;
   @ViewChild('canvas') canvasEl: ElementRef;
@@ -47,10 +46,15 @@ export class SlumptestPage implements AfterViewInit {
   agrementNo: any;
   valOfContract: any;
   detailsList: any = [];
-  date2: any;
+  date3: any;
   joindate: any;
   stageOfwork: any;
-  remarks: any;
+  remarks1: any;
+  remarks2: any;
+  remarks3: any;
+  remarks4: any;
+  remarks5: any;
+
   latitude: any;
   longitude: any;
   locationCordinates: any;
@@ -63,12 +67,24 @@ export class SlumptestPage implements AfterViewInit {
   upjnName: any;
   originalImage: any;
   originalImage2pic: any;
-  gradeofConcrete: any;
-  heightOfMould = 300;
-  heightOfSubsided: any;
-  slumpDiffere: any;
-  min= 75;
-  max= 100;
+  dates: any;
+  gradeOfSteel: any;
+  weight1: any;
+  weight2: any;
+  weight3: any;
+  weight4: any;
+  weight5: any;
+  diff1: any;
+  diff2: any;
+  diff3: any;
+  diff4: any;
+  diff5: any;
+  observation1: any;
+  observation2: any;
+  observation3: any;
+  observation4: any;
+  observation5: any;
+
 
   constructor(
     private toastSer: ToastserviceService,
@@ -85,12 +101,15 @@ this.setViews();
     this.signaturePad2 = new SignaturePad(this.canvasEl2.nativeElement);
   }
 
+
+
+
   setViews(){
 
     this.detailsList = Constants.schemedetailsList.filter((user: any)=>user.work_name.includes(Constants.workName));
    console.log('detailslist: ',this.detailsList);
    if(this.detailsList.length>0){
-     this.qcreportno = 'Qc_slump_'+Constants.workId+'_emp'+Constants.empid;
+     this.qcreportno = 'Qc_swtest_'+Constants.workId+'_emp'+Constants.empid;
      this.clusterName = this.detailsList[0].cluster_name;
      this.districtName = this.detailsList[0].dist_name;
      this.agencyName = this.detailsList[0].agency_name;
@@ -98,83 +117,81 @@ this.setViews();
      this.agrementNo = this.detailsList[0].agreement_no;
      this.valOfContract = this.detailsList[0].tender_value;
    }
-   this.date2 = new Date().toISOString();
+   this.date3 = new Date().toISOString();
    this.joindate =new Date().toLocaleString();
 
   }
 
+  locationcheck(){
 
 
-    locationcheck(){
+    if(this.latitude === undefined || this.longitude === undefined
+      ||this.latitude === null || this.longitude === null||
+      this.latitude === '' || this.longitude === ''){
+            this.toastSer.presentError('Please Enter Latitude and Longitude.');
 
 
-      if(this.latitude === undefined || this.longitude === undefined
-        ||this.latitude === null || this.longitude === null||
-        this.latitude === '' || this.longitude === ''){
-              this.toastSer.presentError('Please Enter Latitude and Longitude.');
-
-
-      }else{
-        this.takePicture()
-      }
+    }else{
+      this.takePicture()
     }
+  }
 
 
-    locationcheck2(){
+  locationcheck2(){
 
 
-      if(this.latitude === undefined || this.longitude === undefined
-        ||this.latitude === null || this.longitude === null||
-        this.latitude === '' || this.longitude === ''){
+    if(this.latitude === undefined || this.longitude === undefined
+      ||this.latitude === null || this.longitude === null||
+      this.latitude === '' || this.longitude === ''){
 
-          this.toastSer.presentError('Please Enter Latitude and Longitude.');
+        this.toastSer.presentError('Please Enter Latitude and Longitude.');
 
 
-      }else{
-        this.takePicture2()
-      }
+    }else{
+      this.takePicture2()
     }
+  }
 
 
-    async takePicture() {
-      const image = await Camera.getPhoto({
-        quality: 90,
-        allowEditing: true,
-        correctOrientation: true,
-        resultType: CameraResultType.Uri,
-        source: CameraSource.Camera
-      });
+  async takePicture() {
+    const image = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: true,
+      correctOrientation: true,
+      resultType: CameraResultType.Uri,
+      source: CameraSource.Camera
+    });
 
-      this.originalImage = image.webPath;
+    this.originalImage = image.webPath;
 
-      fetch(this.originalImage)
-      .then((res) => res.blob())
-      .then((blob) => {
-        this.blobImage = blob;
-        this.watermarkImage();
-      });
+    fetch(this.originalImage)
+    .then((res) => res.blob())
+    .then((blob) => {
+      this.blobImage = blob;
+      this.watermarkImage();
+    });
 
-    }
+  }
 
-    async takePicture2() {
-      const image = await Camera.getPhoto({
-        quality: 90,
-        allowEditing: true,
-        correctOrientation: true,
-        resultType: CameraResultType.Uri,
-        source: CameraSource.Camera
-      });
+  async takePicture2() {
+    const image = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: true,
+      correctOrientation: true,
+      resultType: CameraResultType.Uri,
+      source: CameraSource.Camera
+    });
 
-      this.originalImage2pic = image.webPath;
+    this.originalImage2pic = image.webPath;
 
-      fetch(this.originalImage2pic)
-      .then((res) => res.blob())
-      .then((blob) => {
-        this.blobImagepic2 = blob;
-        this.watermarkImagepic2();
-      });
+    fetch(this.originalImage2pic)
+    .then((res) => res.blob())
+    .then((blob) => {
+      this.blobImagepic2 = blob;
+      this.watermarkImagepic2();
+    });
 
-    }
+  }
 
 
     watermarkImage() {
@@ -211,6 +228,10 @@ this.setViews();
 
     .then((img)=> {
       console.log('Base 64 of one :', img);
+
+    //document.getElementById('lower-left').appendChild(img);
+
+
           this.waterMarkImage2.nativeElement.src = img.src;
         });
     }
@@ -227,6 +248,7 @@ this.setViews();
     y103(coffee, metrics, context) {
       return 83;
     };
+
     clear1() {
       this.signaturePad.clear();
     }
@@ -244,60 +266,209 @@ this.setViews();
     moved(event: Event) {
       // works in device not in browser
     }
-    testListioner(){
-       let d13;
-       if(this.heightOfSubsided !== undefined && this.heightOfSubsided !== null && this.heightOfSubsided !=='' ){
 
-            d13 = this.heightOfMould-parseInt(this.heightOfSubsided, 10);
-            if(d13 !== NaN){
-              this.slumpDiffere = d13;
-            }
-            if(d13 !== undefined && d13 !== null && d13 !=='' ){
-              if(d13 >= this.min && d13<= this.max){
-                this.remarks ='The Tested Slump results are confirming to specifications given in Clause 7 of IS 456 2000'
-              }else{
-                this.remarks = 'The Tested Slump results results not confirming to specifications given in Clause 7 of IS 456 2000'
-              }
-            }
+    cumweightListioner(){
+      let f12: any;
+      let f13: any;
+      let f14: any;
+      let f15: any;
+      let f16: any;
 
 
 
+      if(this.weight1 !== undefined && this.weight1 !== '' && this.weight1 !== null){
+
+
+        const  e12 = parseInt(this.weight1);
+
+        f12= e12-395;
+        if(f12!== NaN){
+          this.diff1 = f12;
+          if(f12 > -31.6){
+            this.observation1='The results for 8 mm Dia of Steel confirming to specifications of IS 1786-2008'
+          }else{
+            this.observation1 = 'The results for 8 mm Dia of Steel not confirming to specifications of IS 1786-2008'
+          }
         }
 
 
+      }
+
+      if(this.weight2 !== undefined && this.weight2 !== '' && this.weight2 !== null){
 
 
+        const  e13 = parseInt(this.weight2);
 
+        f13= e13-617;
+        if(f13!== NaN){
+          this.diff2 = f13;
+          if(f13 > -49.36){
+            this.observation1='The results for 10 mm Dia of Steel confirming to specifications of IS 1786-2008'
+          }else{
+            this.observation1 = 'The results for 10 mm Dia of Steel not confirming to specifications of IS 1786-2008'
+          }
+        }
+
+
+      }
+
+      if(this.weight3 !== undefined && this.weight3 !== '' && this.weight3 !== null){
+
+
+        const  e14 = parseInt(this.weight3);
+
+        f14= e14-888;
+        if(f14!== NaN){
+          this.diff3 = f14;
+          if(f14 > -53.28){
+            this.observation1='The results for 12 mm Dia of Steel confirming to specifications of IS 1786-2008'
+          }else{
+            this.observation1 = 'The results for 12 mm Dia of Steel not confirming to specifications of IS 1786-2008'
+          }
+        }
+
+
+      }
+      if(this.weight4 !== undefined && this.weight4 !== '' && this.weight4 !== null){
+
+
+        const  e15 = parseInt(this.weight4);
+
+        f15= e15-1580;
+        if(f15!== NaN){
+          this.diff4 = f15;
+          if(f15 > -94.80){
+            this.observation1='The results for 16 mm Dia of Steel confirming to specifications of IS 1786-2008'
+          }else{
+            this.observation1 = 'The results for 16 mm Dia of Steel not confirming to specifications of IS 1786-2008'
+          }
+        }
+
+
+      }
+
+      if(this.weight5 !== undefined && this.weight5 !== '' && this.weight5 !== null){
+
+
+        const  e16 = parseInt(this.weight5);
+
+        f16= e16-2470;
+        if(f16!== NaN){
+          this.diff5 = f16;
+          if(f16 > -94.80){
+            this.observation1='The results for 20 mm Dia of Steel confirming to specifications of IS 1786-2008'
+          }else{
+            this.observation1 = 'The results for 20 mm Dia of Steel not confirming to specifications of IS 1786-2008'
+          }
+        }
+
+
+      }
 
 
     }
+
     submit(){
-      if(this.date2 === undefined){
+      if(this.date3 === undefined){
         this.toastSer.presentError('Please Enter Date of testing	')
-      }else if(this.date2 === null){
+      }else if(this.date3 === null){
         this.toastSer.presentError('Please Enter Date of testing	')
-      }else if(this.date2 === ''){
+      }else if(this.date3 === ''){
         this.toastSer.presentError('Please Enter Date of testing	')
-      }else if(this.gradeofConcrete === undefined){
-        this.toastSer.presentError('Please Enter Grade of Concrete				')
-      }else if(this.gradeofConcrete === null){
-        this.toastSer.presentError('Please Enter Grade of Concrete				')
-      }else if(this.gradeofConcrete === ''){
-        this.toastSer.presentError('Please Enter Grade of Concrete				')
-      }else if(this.stageOfwork === undefined){
+      }else if(this.gradeOfSteel === undefined){
+        this.toastSer.presentError('Please Enter Grade of steel				')
+      }else if(this.gradeOfSteel === null){
+        this.toastSer.presentError('Please Enter Grade of steel		')
+      }else if(this.gradeOfSteel === ''){
+        this.toastSer.presentError('Please Enter Grade of steel		')
+      }
+      else if(this.stageOfwork === undefined){
         this.toastSer.presentError('Please Enter Stage of work		')
       }else if(this.stageOfwork === null){
         this.toastSer.presentError('Please Enter Stage of work		')
       }else if(this.stageOfwork === ''){
         this.toastSer.presentError('Please Enter Stage of work		')
+      }else if(this.weight1 === undefined){
+        this.toastSer.presentError('Please Enter Standard Weight of Steel per Rmt in grms		 1	')
+      }else if(this.weight1 === null){
+        this.toastSer.presentError('Please Enter Standard Weight of Steel per Rmt in grms		 1	')
+      }else if(this.weight1 === ''){
+        this.toastSer.presentError('Please Enter Standard Weight of Steel per Rmt in grms		 1	')
       }
-      else if(this.heightOfSubsided === undefined){
-        this.toastSer.presentError('Please Enter Height of the subsided concrete		')
-      }else if(this.heightOfSubsided === null){
-        this.toastSer.presentError('Please Enter Height of the subsided concrete			')
-      }else if(this.heightOfSubsided === ''){
-        this.toastSer.presentError('Please Enter Height of the subsided concrete				')
-      }else if (this.waterMarkImage.nativeElement.src === null || this.waterMarkImage.nativeElement.src === '') {
+      else if(this.weight2 === undefined){
+        this.toastSer.presentError('Please Enter Standard Weight of Steel per Rmt in grms		 2	')
+      }else if(this.weight2 === null){
+        this.toastSer.presentError('Please Enter Standard Weight of Steel per Rmt in grms		 2	')
+      }else if(this.weight2 === ''){
+        this.toastSer.presentError('Please Enter Standard Weight of Steel per Rmt in grms		 2	')
+      }
+
+      else if(this.weight3 === undefined){
+        this.toastSer.presentError('Please Enter Standard Weight of Steel per Rmt in grms		 3	')
+      }else if(this.weight3 === null){
+        this.toastSer.presentError('Please Enter Standard Weight of Steel per Rmt in grms		 3	')
+      }else if(this.weight3 === ''){
+        this.toastSer.presentError('Please Enter Standard Weight of Steel per Rmt in grms		 3	')
+      }
+
+      else if(this.weight4 === undefined){
+        this.toastSer.presentError('Please Enter Standard Weight of Steel per Rmt in grms		 4	')
+      }else if(this.weight4 === null){
+        this.toastSer.presentError('Please Enter Standard Weight of Steel per Rmt in grms		 4	')
+      }else if(this.weight4 === ''){
+        this.toastSer.presentError('Please Enter Standard Weight of Steel per Rmt in grms		 4	')
+      }
+
+      else if(this.weight5 === undefined){
+        this.toastSer.presentError('Please Enter Standard Weight of Steel per Rmt in grms		 5	')
+      }else if(this.weight5 === null){
+        this.toastSer.presentError('Please Enter Standard Weight of Steel per Rmt in grms		 5	')
+      }else if(this.weight5 === ''){
+        this.toastSer.presentError('Please Enter Standard Weight of Steel per Rmt in grms		 5	')
+      }
+      else if(this.remarks1 === undefined){
+        this.toastSer.presentError('Please Enter Remarks 1')
+      }else if(this.remarks1 === null){
+        this.toastSer.presentError('Please Enter Remarks 1	')
+      }else if(this.remarks1 === ''){
+        this.toastSer.presentError('Please Enter Remarks 1')
+      }
+      else if(this.remarks2 === undefined){
+        this.toastSer.presentError('Please Enter Remarks 2')
+      }else if(this.remarks2 === null){
+        this.toastSer.presentError('Please Enter Remarks 2	')
+      }else if(this.remarks2 === ''){
+        this.toastSer.presentError('Please Enter Remarks 2')
+      }
+      else if(this.remarks3 === undefined){
+        this.toastSer.presentError('Please Enter Remarks 3')
+      }else if(this.remarks3 === null){
+        this.toastSer.presentError('Please Enter Remarks 3	')
+      }else if(this.remarks3 === ''){
+        this.toastSer.presentError('Please Enter Remarks 3')
+      }
+      else if(this.remarks4 === undefined){
+        this.toastSer.presentError('Please Enter Remarks 4')
+      }else if(this.remarks4 === null){
+        this.toastSer.presentError('Please Enter Remarks 4	')
+      }else if(this.remarks4 === ''){
+        this.toastSer.presentError('Please Enter Remarks 4')
+      }
+      else if(this.remarks5 === undefined){
+        this.toastSer.presentError('Please Enter Remarks 5')
+      }else if(this.remarks5 === null){
+        this.toastSer.presentError('Please Enter Remarks 5	')
+      }else if(this.remarks5 === ''){
+        this.toastSer.presentError('Please Enter Remarks 5')
+      }
+
+
+
+
+
+
+
+      else if (this.waterMarkImage.nativeElement.src === null || this.waterMarkImage.nativeElement.src === '') {
         this.toastSer.presentError('Please upload  Photograph1');
       }else if (this.waterMarkImage2.nativeElement.src === null || this.waterMarkImage2.nativeElement.src === '') {
         this.toastSer.presentError('Please upload  Photograph2');
@@ -336,12 +507,12 @@ this.setViews();
           if(window.navigator.connection.type === 'none'){
             this.toastSer.presentError('Please check your internet connection');
          }else{
-            this.httpSer.addSlumpTest(Constants.workId,Constants.empid,this.date2,this.gradeofConcrete,this.stageOfwork,
-              this.heightOfSubsided,this.slumpDiffere,
-              this.remarks,this.waterMarkImage.nativeElement.src,
-              this.waterMarkImage2.nativeElement.src,this.signaturePad.toDataURL(),this.contractorName,
-              this.signaturePad1.toDataURL(),this.upjnName,this.signaturePad2.toDataURL()).subscribe((response: any)=>{
-
+          this.httpSer.addSteelUnitWtTest(Constants.workId,Constants.empid,this.date3,this.gradeOfSteel,this.stageOfwork,
+            395,617,888,1580,2470,this.weight1,this.weight2,this.weight3,this.weight4,this.weight5,
+            this.diff1,this.diff2,this.diff3,this.diff4,this.diff5,this.remarks1,this.remarks2,this.remarks3,this.remarks4,this.remarks5,
+            this.waterMarkImage.nativeElement.src,
+            this.waterMarkImage2.nativeElement.src,this.signaturePad.toDataURL(),this.contractorName,
+            this.signaturePad1.toDataURL(),this.upjnName,this.signaturePad2.toDataURL()).subscribe((response: any)=>{
                 if(response.error === false){
                   this.toastSer.presentSuccess(response.msg)
                   this.router.navigate(['formselection']);
@@ -354,12 +525,12 @@ this.setViews();
           }
 
         }else{
-          this.httpSer.addSlumpTest(Constants.workId,Constants.empid,this.date2,this.gradeofConcrete,this.stageOfwork,
-            this.heightOfSubsided,this.slumpDiffere,
-            this.remarks,this.waterMarkImage.nativeElement.src,
+          this.httpSer.addSteelUnitWtTest(Constants.workId,Constants.empid,this.date3,this.gradeOfSteel,this.stageOfwork,
+            395,617,888,1580,2470,this.weight1,this.weight2,this.weight3,this.weight4,this.weight5,
+            this.diff1,this.diff2,this.diff3,this.diff4,this.diff5,this.remarks1,this.remarks2,this.remarks3,this.remarks4,this.remarks5,
+            this.waterMarkImage.nativeElement.src,
             this.waterMarkImage2.nativeElement.src,this.signaturePad.toDataURL(),this.contractorName,
             this.signaturePad1.toDataURL(),this.upjnName,this.signaturePad2.toDataURL()).subscribe((response: any)=>{
-
               if(response.error === false){
                 this.toastSer.presentSuccess(response.msg)
                 this.router.navigate(['formselection']);
@@ -369,9 +540,11 @@ this.setViews();
               }
             });
 
+
         }
       });
 
     }
-
 }
+
+

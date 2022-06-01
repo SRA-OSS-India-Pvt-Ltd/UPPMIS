@@ -11,16 +11,15 @@ import { Constants } from 'src/app/common/constants';
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
-
 import * as watermark from 'watermarkjs';
 import SignaturePad from 'signature_pad';
 
 @Component({
-  selector: 'app-slumptest',
-  templateUrl: './slumptest.page.html',
-  styleUrls: ['./slumptest.page.scss'],
+  selector: 'app-waterabsorption',
+  templateUrl: './waterabsorption.page.html',
+  styleUrls: ['./waterabsorption.page.scss'],
 })
-export class SlumptestPage implements AfterViewInit {
+export class WaterabsorptionPage implements AfterViewInit  {
   @ViewChild('previewimage') waterMarkImage: ElementRef;
   @ViewChild('previewimage2') waterMarkImage2: ElementRef;
   @ViewChild('canvas') canvasEl: ElementRef;
@@ -47,10 +46,10 @@ export class SlumptestPage implements AfterViewInit {
   agrementNo: any;
   valOfContract: any;
   detailsList: any = [];
-  date2: any;
+  date3: any;
   joindate: any;
   stageOfwork: any;
-  remarks: any;
+
   latitude: any;
   longitude: any;
   locationCordinates: any;
@@ -63,12 +62,29 @@ export class SlumptestPage implements AfterViewInit {
   upjnName: any;
   originalImage: any;
   originalImage2pic: any;
-  gradeofConcrete: any;
-  heightOfMould = 300;
-  heightOfSubsided: any;
-  slumpDiffere: any;
-  min= 75;
-  max= 100;
+  dates: any;
+  weight1: any;
+  weight2: any;
+  weight3: any;
+
+  weight21: any;
+  weight22: any;
+  weight23: any;
+
+  diff1: any;
+  diff2: any;
+  diff3: any;
+
+  per1: any;
+  per2: any;
+  per3: any;
+
+  remarks: any;
+  total: any;
+  average: any;
+
+
+
 
   constructor(
     private toastSer: ToastserviceService,
@@ -85,12 +101,14 @@ this.setViews();
     this.signaturePad2 = new SignaturePad(this.canvasEl2.nativeElement);
   }
 
-  setViews(){
 
+
+
+  setViews(){
     this.detailsList = Constants.schemedetailsList.filter((user: any)=>user.work_name.includes(Constants.workName));
    console.log('detailslist: ',this.detailsList);
    if(this.detailsList.length>0){
-     this.qcreportno = 'Qc_slump_'+Constants.workId+'_emp'+Constants.empid;
+     this.qcreportno = 'Qc_swtest_'+Constants.workId+'_emp'+Constants.empid;
      this.clusterName = this.detailsList[0].cluster_name;
      this.districtName = this.detailsList[0].dist_name;
      this.agencyName = this.detailsList[0].agency_name;
@@ -98,83 +116,81 @@ this.setViews();
      this.agrementNo = this.detailsList[0].agreement_no;
      this.valOfContract = this.detailsList[0].tender_value;
    }
-   this.date2 = new Date().toISOString();
+   this.date3 = new Date().toISOString();
    this.joindate =new Date().toLocaleString();
 
   }
+  locationcheck(){
 
 
-
-    locationcheck(){
-
-
-      if(this.latitude === undefined || this.longitude === undefined
-        ||this.latitude === null || this.longitude === null||
-        this.latitude === '' || this.longitude === ''){
-              this.toastSer.presentError('Please Enter Latitude and Longitude.');
+    if(this.latitude === undefined || this.longitude === undefined
+      ||this.latitude === null || this.longitude === null||
+      this.latitude === '' || this.longitude === ''){
+            this.toastSer.presentError('Please Enter Latitude and Longitude.');
 
 
-      }else{
-        this.takePicture()
-      }
+    }else{
+      this.takePicture()
     }
+  }
 
 
-    locationcheck2(){
+  locationcheck2(){
 
 
-      if(this.latitude === undefined || this.longitude === undefined
-        ||this.latitude === null || this.longitude === null||
-        this.latitude === '' || this.longitude === ''){
+    if(this.latitude === undefined || this.longitude === undefined
+      ||this.latitude === null || this.longitude === null||
+      this.latitude === '' || this.longitude === ''){
 
-          this.toastSer.presentError('Please Enter Latitude and Longitude.');
+        this.toastSer.presentError('Please Enter Latitude and Longitude.');
 
 
-      }else{
-        this.takePicture2()
-      }
+    }else{
+      this.takePicture2()
     }
+  }
 
 
-    async takePicture() {
-      const image = await Camera.getPhoto({
-        quality: 90,
-        allowEditing: true,
-        correctOrientation: true,
-        resultType: CameraResultType.Uri,
-        source: CameraSource.Camera
-      });
+  async takePicture() {
+    const image = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: true,
+      correctOrientation: true,
+      resultType: CameraResultType.Uri,
+      source: CameraSource.Camera
+    });
 
-      this.originalImage = image.webPath;
+    this.originalImage = image.webPath;
 
-      fetch(this.originalImage)
-      .then((res) => res.blob())
-      .then((blob) => {
-        this.blobImage = blob;
-        this.watermarkImage();
-      });
+    fetch(this.originalImage)
+    .then((res) => res.blob())
+    .then((blob) => {
+      this.blobImage = blob;
+      this.watermarkImage();
+    });
 
-    }
+  }
 
-    async takePicture2() {
-      const image = await Camera.getPhoto({
-        quality: 90,
-        allowEditing: true,
-        correctOrientation: true,
-        resultType: CameraResultType.Uri,
-        source: CameraSource.Camera
-      });
+  async takePicture2() {
+    const image = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: true,
+      correctOrientation: true,
+      resultType: CameraResultType.Uri,
+      source: CameraSource.Camera
+    });
 
-      this.originalImage2pic = image.webPath;
+    this.originalImage2pic = image.webPath;
 
-      fetch(this.originalImage2pic)
-      .then((res) => res.blob())
-      .then((blob) => {
-        this.blobImagepic2 = blob;
-        this.watermarkImagepic2();
-      });
+    fetch(this.originalImage2pic)
+    .then((res) => res.blob())
+    .then((blob) => {
+      this.blobImagepic2 = blob;
+      this.watermarkImagepic2();
+    });
 
-    }
+  }
+
 
 
     watermarkImage() {
@@ -211,6 +227,10 @@ this.setViews();
 
     .then((img)=> {
       console.log('Base 64 of one :', img);
+
+    //document.getElementById('lower-left').appendChild(img);
+
+
           this.waterMarkImage2.nativeElement.src = img.src;
         });
     }
@@ -244,26 +264,88 @@ this.setViews();
     moved(event: Event) {
       // works in device not in browser
     }
-    testListioner(){
-       let d13;
-       if(this.heightOfSubsided !== undefined && this.heightOfSubsided !== null && this.heightOfSubsided !=='' ){
 
-            d13 = this.heightOfMould-parseInt(this.heightOfSubsided, 10);
-            if(d13 !== NaN){
-              this.slumpDiffere = d13;
-            }
-            if(d13 !== undefined && d13 !== null && d13 !=='' ){
-              if(d13 >= this.min && d13<= this.max){
-                this.remarks ='The Tested Slump results are confirming to specifications given in Clause 7 of IS 456 2000'
-              }else{
-                this.remarks = 'The Tested Slump results results not confirming to specifications given in Clause 7 of IS 456 2000'
-              }
-            }
+    cumweightListioner(){
+      let e11: any;
+      let e12: any;
+      let e13: any;
+      let e14: any;
+let e15: any;
 
 
 
+      if(this.weight1 !== undefined && this.weight1 !== '' && this.weight1 !== null &&
+      this.weight21 !== undefined && this.weight21 !== '' && this.weight21 !== null){
+
+        const b11 = parseInt(this.weight1);
+        const c11=  parseInt(this.weight21);
+
+        const  d11 = c11-b11;
+       if(d11 !==NaN){
+          this.diff1 = d11;
+          e11 = (d11/b11)*100;
+          if(e11 !== NaN){
+            this.per1 = e11;
+          }
         }
 
+
+
+      }
+
+
+      if(this.weight2 !== undefined && this.weight2 !== '' && this.weight2 !== null &&
+      this.weight22 !== undefined && this.weight22 !== '' && this.weight22 !== null){
+
+        const b12 = parseInt(this.weight2);
+        const c12=  parseInt(this.weight22);
+
+        const  d12 = c12-b12;
+       if(d12 !==NaN){
+          this.diff2 = d12;
+          e12 = (d12/b12)*100;
+          if(e12 !== NaN){
+            this.per2 = e12;
+          }
+        }
+
+
+
+      }
+
+      if(this.weight3 !== undefined && this.weight3 !== '' && this.weight3 !== null &&
+      this.weight23 !== undefined && this.weight23 !== '' && this.weight23 !== null){
+
+        const b13 = parseInt(this.weight3);
+        const c13=  parseInt(this.weight23);
+
+        const  d13 = c13-b13;
+       if(d13 !==NaN){
+          this.diff3 = d13;
+          e13 = (d13/b13)*100;
+          if(e13 !== NaN){
+            this.per3 = e13;
+          }
+        }
+
+
+
+      }
+
+      if(e11 !== undefined && e12!== undefined && e13 !== undefined){
+         e14 = e11+e12+e13;
+        if(e14 !== NaN){
+          this.total = e14;
+          e15 = e14/3;
+          this.average = e15;
+          if(e15 <= 15){
+            this.remarks = 'The Bricks are confirming to Higher class as per Clause 7.2 Table-1 of IS 1077-1992 and can be used for construction of External walls,columns and arches';
+          }else{
+            this.remarks = 'The Bricks are not confirming to Higher class as per Clause 7.2 Table-1 of IS 1077-1992 and can be used for construction of External walls,columns and arches';
+
+          }
+        }
+      }
 
 
 
@@ -271,33 +353,76 @@ this.setViews();
 
 
     }
+
     submit(){
-      if(this.date2 === undefined){
+      if(this.date3 === undefined){
         this.toastSer.presentError('Please Enter Date of testing	')
-      }else if(this.date2 === null){
+      }else if(this.date3 === null){
         this.toastSer.presentError('Please Enter Date of testing	')
-      }else if(this.date2 === ''){
+      }else if(this.date3 === ''){
         this.toastSer.presentError('Please Enter Date of testing	')
-      }else if(this.gradeofConcrete === undefined){
-        this.toastSer.presentError('Please Enter Grade of Concrete				')
-      }else if(this.gradeofConcrete === null){
-        this.toastSer.presentError('Please Enter Grade of Concrete				')
-      }else if(this.gradeofConcrete === ''){
-        this.toastSer.presentError('Please Enter Grade of Concrete				')
-      }else if(this.stageOfwork === undefined){
+      }
+      else if(this.stageOfwork === undefined){
         this.toastSer.presentError('Please Enter Stage of work		')
       }else if(this.stageOfwork === null){
         this.toastSer.presentError('Please Enter Stage of work		')
       }else if(this.stageOfwork === ''){
         this.toastSer.presentError('Please Enter Stage of work		')
+      }else if(this.weight1 === undefined){
+        this.toastSer.presentError('Please Enter Dry Weight (W1) in gms			 1	')
+      }else if(this.weight1 === null){
+        this.toastSer.presentError('Please Enter Dry Weight (W1) in gms			 1	')
+      }else if(this.weight1 === ''){
+        this.toastSer.presentError('Please Enter Dry Weight (W1) in gms			 1	')
       }
-      else if(this.heightOfSubsided === undefined){
-        this.toastSer.presentError('Please Enter Height of the subsided concrete		')
-      }else if(this.heightOfSubsided === null){
-        this.toastSer.presentError('Please Enter Height of the subsided concrete			')
-      }else if(this.heightOfSubsided === ''){
-        this.toastSer.presentError('Please Enter Height of the subsided concrete				')
-      }else if (this.waterMarkImage.nativeElement.src === null || this.waterMarkImage.nativeElement.src === '') {
+      else if(this.weight2 === undefined){
+        this.toastSer.presentError('Please Enter Dry Weight (W1) in gms			 2	')
+      }else if(this.weight2 === null){
+        this.toastSer.presentError('Please Enter Dry Weight (W1) in gms			 2	')
+      }else if(this.weight2 === ''){
+        this.toastSer.presentError('Please Enter Dry Weight (W1) in gms			 2	')
+      }
+
+      else if(this.weight3 === undefined){
+        this.toastSer.presentError('Please Enter Dry Weight (W1) in gms			 3	')
+      }else if(this.weight3 === null){
+        this.toastSer.presentError('Please Enter Dry Weight (W1) in gms			 3	')
+      }else if(this.weight3 === ''){
+        this.toastSer.presentError('Please Enter Dry Weight (W1) in gms			 3	')
+      }
+
+      else if(this.weight21 === undefined){
+        this.toastSer.presentError('Please Enter Wet Weight (W2) in gms	 1')
+      }else if(this.weight21 === null){
+        this.toastSer.presentError('Please Enter Wet Weight (W2) in gms	 1')
+      }else if(this.weight21 === ''){
+        this.toastSer.presentError('Please Enter Wet Weight (W2) in gms	 1')
+      }
+
+
+      else if(this.weight22 === undefined){
+        this.toastSer.presentError('Please Enter Wet Weight (W2) in gms	 2')
+      }else if(this.weight22 === null){
+        this.toastSer.presentError('Please Enter Wet Weight (W2) in gms	 2')
+      }else if(this.weight22 === ''){
+        this.toastSer.presentError('Please Enter Wet Weight (W2) in gms	 2')
+      }
+
+      else if(this.weight23 === undefined){
+        this.toastSer.presentError('Please Enter Wet Weight (W2) in gms	 3')
+      }else if(this.weight23 === null){
+        this.toastSer.presentError('Please Enter Wet Weight (W2) in gms	 3')
+      }else if(this.weight23 === ''){
+        this.toastSer.presentError('Please Enter Wet Weight (W2) in gms	 3')
+      }
+
+
+
+
+
+
+
+      else if (this.waterMarkImage.nativeElement.src === null || this.waterMarkImage.nativeElement.src === '') {
         this.toastSer.presentError('Please upload  Photograph1');
       }else if (this.waterMarkImage2.nativeElement.src === null || this.waterMarkImage2.nativeElement.src === '') {
         this.toastSer.presentError('Please upload  Photograph2');
@@ -336,12 +461,15 @@ this.setViews();
           if(window.navigator.connection.type === 'none'){
             this.toastSer.presentError('Please check your internet connection');
          }else{
-            this.httpSer.addSlumpTest(Constants.workId,Constants.empid,this.date2,this.gradeofConcrete,this.stageOfwork,
-              this.heightOfSubsided,this.slumpDiffere,
-              this.remarks,this.waterMarkImage.nativeElement.src,
-              this.waterMarkImage2.nativeElement.src,this.signaturePad.toDataURL(),this.contractorName,
-              this.signaturePad1.toDataURL(),this.upjnName,this.signaturePad2.toDataURL()).subscribe((response: any)=>{
-
+          this.httpSer.addWaterAbsTest(Constants.workId,Constants.empid,this.date3,this.stageOfwork,
+            this.weight1,this.weight2,this.weight3,
+            this.weight21,this.weight22,this.weight23,
+            this.diff1,this.diff2,this.diff3,
+            this.per1,this.per2,this.per3,
+            this.total,this.average,this.remarks,
+            this.waterMarkImage.nativeElement.src,
+            this.waterMarkImage2.nativeElement.src,this.signaturePad.toDataURL(),this.contractorName,
+            this.signaturePad1.toDataURL(),this.upjnName,this.signaturePad2.toDataURL()).subscribe((response: any)=>{
                 if(response.error === false){
                   this.toastSer.presentSuccess(response.msg)
                   this.router.navigate(['formselection']);
@@ -354,12 +482,15 @@ this.setViews();
           }
 
         }else{
-          this.httpSer.addSlumpTest(Constants.workId,Constants.empid,this.date2,this.gradeofConcrete,this.stageOfwork,
-            this.heightOfSubsided,this.slumpDiffere,
-            this.remarks,this.waterMarkImage.nativeElement.src,
+          this.httpSer.addWaterAbsTest(Constants.workId,Constants.empid,this.date3,this.stageOfwork,
+            this.weight1,this.weight2,this.weight3,
+            this.weight21,this.weight22,this.weight23,
+            this.diff1,this.diff2,this.diff3,
+            this.per1,this.per2,this.per3,
+            this.total,this.average,this.remarks,
+            this.waterMarkImage.nativeElement.src,
             this.waterMarkImage2.nativeElement.src,this.signaturePad.toDataURL(),this.contractorName,
             this.signaturePad1.toDataURL(),this.upjnName,this.signaturePad2.toDataURL()).subscribe((response: any)=>{
-
               if(response.error === false){
                 this.toastSer.presentSuccess(response.msg)
                 this.router.navigate(['formselection']);
@@ -369,9 +500,11 @@ this.setViews();
               }
             });
 
+
         }
       });
 
     }
-
 }
+
+

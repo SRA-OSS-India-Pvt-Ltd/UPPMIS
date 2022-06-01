@@ -65,8 +65,21 @@ export class FormselectionPage implements OnInit {
         this.router.navigate(['cccube28']);
       }else if(this.form === 'Seive analysis-concrete'){
         this.router.navigate(['seive']);
+      }else if(this.form === 'Coarse Aggrigate - Single size'){
+        this.router.navigate(['coarsesingle']);
+      }else if(this.form === 'Coarse Aggrigate - Graded(40mm)'){
+        this.router.navigate(['ca40']);
+      }else if(this.form === 'Coarse Aggrigate - Graded(20mm)'){
+        this.router.navigate(['ca20']);
+      }else if(this.form === 'Coarse Aggrigate - Graded(12.5mm)'){
+        this.router.navigate(['ca12']);
+      }else if(this.form === 'Steel Unit Weight test'){
+        this.router.navigate(['steelunit']);
+      }else if(this.form === 'Water Absorption Bricks'){
+        this.router.navigate(['waterabsorption']);
+      }else if(this.form === 'CC-Cube test for 7 days'){
+        this.router.navigate(['cccube07']);
       }
-
     }
   }
 }
