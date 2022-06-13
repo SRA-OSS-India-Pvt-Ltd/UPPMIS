@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/formselection"></ion-back-button>
     </ion-buttons>
-    <ion-title style="white-space: pre-wrap !important;">Slit Content Test</ion-title>
+    <ion-label style="white-space: pre-wrap !important;">Slit Content Test</ion-label>
 
 
   </ion-toolbar>
@@ -109,13 +109,16 @@
       <ion-row>
 
         <ion-col size="12">
-          <ion-item class="input">
+          <ion-item class="padding">
             <ion-label>Date of Testing</ion-label>
+            </ion-item>
+            <ion-item class="input">
+
             <ion-input value="{{ date | date: 'dd-MM-yyyy' }}" id="date" >
             </ion-input>
-            <ion-popover trigger="date" size="cover">
+            <ion-popover trigger="date" size="cover" [dismissOnSelect]="true">
               <ng-template>
-                <ion-datetime presentation="date" [(ngModel)]="date"></ion-datetime>
+                <ion-datetime presentation="date" [(ngModel)]="date" ></ion-datetime>
               </ng-template>
             </ion-popover>
           </ion-item>
@@ -131,7 +134,7 @@
         </ion-col>
         <ion-col size="6">
           <ion-item class="input">
-            <ion-input type="text" cass="input" [(ngModel)]="stageOfwork"></ion-input>
+            <ion-input type="text" cass="input" [(ngModel)]="stageOfwork" placeholder=" stage of work"></ion-input>
           </ion-item>
         </ion-col>
       </ion-row>
@@ -144,7 +147,7 @@
         </ion-col>
         <ion-col size="6">
           <ion-item class="input">
-            <ion-input type="text" cass="input" [(ngModel)]="typeOfMaterial"></ion-input>
+            <ion-input type="text" cass="input" [(ngModel)]="typeOfMaterial" placeholder="Type Of Material"></ion-input>
           </ion-item>
         </ion-col>
       </ion-row>
@@ -230,14 +233,14 @@
         </ion-col>
         <ion-col size="4">
           <ion-item class="input">
-            <ion-label>{{per1}}</ion-label>
+            <ion-label >{{per1 | number: '1.2-2'}}</ion-label>
 
           </ion-item>
 
         </ion-col>
         <ion-col size="4">
           <ion-item class="input">
-            <ion-label>{{per2}}</ion-label>
+            <ion-label>{{per2 | number: '1.2-2'}}</ion-label>
           </ion-item>
 
         </ion-col>
@@ -252,7 +255,7 @@
         </ion-col>
         <ion-col size="6">
           <ion-item class="input">
-            <ion-label>{{avg}}</ion-label>
+            <ion-label>{{avg | number: '1.2-2'}}</ion-label>
 
           </ion-item>
 
@@ -291,6 +294,7 @@
           </ion-item>
         </ion-col>
       </ion-row>
+
       <ion-row>
         <ion-col size="6">
           <ion-item class="padding">
@@ -317,6 +321,9 @@
           </ion-item>
         </ion-col>
       </ion-row>
+
+
+
 
 
 

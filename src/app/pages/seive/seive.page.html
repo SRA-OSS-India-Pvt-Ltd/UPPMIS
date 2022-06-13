@@ -1,76 +1,9 @@
-<!-- <ion-header>
-  <ion-toolbar>
-    <ion-title>seive</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content>
-
-  <ion-row>
-    <ion-col size="6">
-      <ion-item class="padding">
-        <ion-label  style="white-space: pre-wrap !important;"><strong>  Photograph2:</strong></ion-label>
-      </ion-item>
-
-    </ion-col>
-
-    <ion-col size="4">
-
-
-
-      <ion-img [src]="imageElement"></ion-img>
-
-
-
-
-    </ion-col>
-
-    <ion-col size="1">
-
-      <ion-button title="camera" (click)="takePicture()">
-        <ion-icon  name="camera" ></ion-icon>
-        </ion-button>
-    </ion-col>
-
-
-  </ion-row>
-
-
-
-
-  <ion-button (click)="getCurrentPosition()" expand="block">
-    <ion-icon name="locate" slot="start"></ion-icon>
-    Get position
-  </ion-button>
-
-
-  <ion-card >
-    <ion-card-content>
-      <ion-item>
-        <ion-icon name="location" slot="start"></ion-icon>
-        Lat: {{ latitude }}
-      </ion-item>
-      <ion-item>
-        <ion-icon name="location" slot="start"></ion-icon>
-        Lng: {{longitude }}
-      </ion-item>
-
-      <ion-button (click)="share()" expand="block" color="secondary">
-        <ion-icon name="share" slot="start"></ion-icon>
-        Share!
-      </ion-button>
-    </ion-card-content>
-  </ion-card>
-
-
-</ion-content> -->
-
 <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/formselection"></ion-back-button>
     </ion-buttons>
-    <ion-title style="white-space: pre-wrap !important;">Coarse Aggregate - Single size Sieve Analysis</ion-title>
+    <ion-label style="white-space: pre-wrap !important;"> Sieve Analysis</ion-label>
 
 
   </ion-toolbar>
@@ -176,13 +109,16 @@
       <ion-row>
 
         <ion-col size="12">
-          <ion-item class="input">
+          <ion-item class="padding">
             <ion-label>Date of Testing</ion-label>
+            </ion-item>
+            <ion-item class="input">
+
             <ion-input value="{{ dates | date: 'dd-MM-yyyy' }}" id="dates" >
             </ion-input>
-            <ion-popover trigger="dates" size="cover">
+            <ion-popover trigger="dates" size="cover" [dismissOnSelect]="true">
               <ng-template>
-                <ion-datetime presentation="datesda" [(ngModel)]="dates"></ion-datetime>
+                <ion-datetime presentation="datesda345" [(ngModel)]="dates"></ion-datetime>
               </ng-template>
             </ion-popover>
           </ion-item>
@@ -199,7 +135,7 @@
         </ion-col>
         <ion-col size="6">
           <ion-item class="input">
-            <ion-input type="text" cass="input" [(ngModel)]="materialSource"></ion-input>
+            <ion-input type="text" cass="input" [(ngModel)]="materialSource" placeholder=" Material Source"></ion-input>
           </ion-item>
         </ion-col>
       </ion-row>
@@ -213,7 +149,7 @@
         </ion-col>
         <ion-col size="6">
           <ion-item class="input">
-            <ion-input type="text" cass="input" [(ngModel)]="stageOfwork"></ion-input>
+            <ion-input type="text" cass="input" [(ngModel)]="stageOfwork" placeholder=" Stage of work"></ion-input>
           </ion-item>
         </ion-col>
       </ion-row>
@@ -392,64 +328,19 @@
       <ion-row>
         <ion-col size="4">
           <ion-item class="input">
-            <ion-label>{{cumwt2}}</ion-label>
+            <ion-label>{{cumwt2 | number: '1.2-2'}}</ion-label>
 
           </ion-item>
         </ion-col>
         <ion-col size="4">
           <ion-item class="input">
-            <ion-label>{{retainwt2}}</ion-label>
+            <ion-label>{{retainwt2 | number: '1.2-2'}}</ion-label>
 
           </ion-item>
         </ion-col>
         <ion-col size="4">
           <ion-item class="input">
-            <ion-label>{{paasing2}}</ion-label>
-
-          </ion-item>
-        </ion-col>
-
-      </ion-row>
-
-
-      <ion-row>
-        <ion-col size="4">
-          <ion-item class="input">
-            <ion-label>{{cumwt3}}</ion-label>
-
-          </ion-item>
-        </ion-col>
-        <ion-col size="4">
-          <ion-item class="input">
-            <ion-label>{{retainwt3}}</ion-label>
-
-          </ion-item>
-        </ion-col>
-        <ion-col size="4">
-          <ion-item class="input">
-            <ion-label>{{paasing3}}</ion-label>
-
-          </ion-item>
-        </ion-col>
-
-      </ion-row>
-
-      <ion-row>
-        <ion-col size="4">
-          <ion-item class="input">
-            <ion-label>{{cumwt4}}</ion-label>
-
-          </ion-item>
-        </ion-col>
-        <ion-col size="4">
-          <ion-item class="input">
-            <ion-label>{{retainwt4}}</ion-label>
-
-          </ion-item>
-        </ion-col>
-        <ion-col size="4">
-          <ion-item class="input">
-            <ion-label>{{paasing4}}</ion-label>
+            <ion-label>{{paasing2 | number: '1.2-2'}}</ion-label>
 
           </ion-item>
         </ion-col>
@@ -460,41 +351,19 @@
       <ion-row>
         <ion-col size="4">
           <ion-item class="input">
-            <ion-label>{{cumwt5}}</ion-label>
+            <ion-label>{{cumwt3 | number: '1.2-2'}}</ion-label>
 
           </ion-item>
         </ion-col>
         <ion-col size="4">
           <ion-item class="input">
-            <ion-label>{{retainwt5}}</ion-label>
+            <ion-label>{{retainwt3 | number: '1.2-2'}}</ion-label>
 
           </ion-item>
         </ion-col>
         <ion-col size="4">
           <ion-item class="input">
-            <ion-label>{{paasing5}}</ion-label>
-
-          </ion-item>
-        </ion-col>
-
-      </ion-row>
-
-      <ion-row>
-        <ion-col size="4">
-          <ion-item class="input">
-            <ion-label>{{cumwt6}}</ion-label>
-
-          </ion-item>
-        </ion-col>
-        <ion-col size="4">
-          <ion-item class="input">
-            <ion-label>{{retainwt6}}</ion-label>
-
-          </ion-item>
-        </ion-col>
-        <ion-col size="4">
-          <ion-item class="input">
-            <ion-label>{{paasing6}}</ion-label>
+            <ion-label>{{paasing3 | number: '1.2-2'}}</ion-label>
 
           </ion-item>
         </ion-col>
@@ -504,19 +373,19 @@
       <ion-row>
         <ion-col size="4">
           <ion-item class="input">
-            <ion-label>{{cumwt7}}</ion-label>
+            <ion-label>{{cumwt4 | number: '1.2-2'}}</ion-label>
 
           </ion-item>
         </ion-col>
         <ion-col size="4">
           <ion-item class="input">
-            <ion-label>{{retainwt7}}</ion-label>
+            <ion-label>{{retainwt4 | number: '1.2-2'}}</ion-label>
 
           </ion-item>
         </ion-col>
         <ion-col size="4">
           <ion-item class="input">
-            <ion-label>{{paasing7}}</ion-label>
+            <ion-label>{{paasing4 | number: '1.2-2'}}</ion-label>
 
           </ion-item>
         </ion-col>
@@ -527,19 +396,86 @@
       <ion-row>
         <ion-col size="4">
           <ion-item class="input">
-            <ion-label>{{cumwt8}}</ion-label>
+            <ion-label>{{cumwt5 | number: '1.2-2'}}</ion-label>
 
           </ion-item>
         </ion-col>
         <ion-col size="4">
           <ion-item class="input">
-            <ion-label>{{retainwt8}}</ion-label>
+            <ion-label>{{retainwt5 | number: '1.2-2'}}</ion-label>
 
           </ion-item>
         </ion-col>
         <ion-col size="4">
           <ion-item class="input">
-            <ion-label>{{paasing8}}</ion-label>
+            <ion-label>{{paasing5 | number: '1.2-2'}}</ion-label>
+
+          </ion-item>
+        </ion-col>
+
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="4">
+          <ion-item class="input">
+            <ion-label>{{cumwt6 | number: '1.2-2'}}</ion-label>
+
+          </ion-item>
+        </ion-col>
+        <ion-col size="4">
+          <ion-item class="input">
+            <ion-label>{{retainwt6 | number: '1.2-2'}}</ion-label>
+
+          </ion-item>
+        </ion-col>
+        <ion-col size="4">
+          <ion-item class="input">
+            <ion-label>{{paasing6 | number: '1.2-2'}}</ion-label>
+
+          </ion-item>
+        </ion-col>
+
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="4">
+          <ion-item class="input">
+            <ion-label>{{cumwt7 | number: '1.2-2'}}</ion-label>
+
+          </ion-item>
+        </ion-col>
+        <ion-col size="4">
+          <ion-item class="input">
+            <ion-label>{{retainwt7 | number: '1.2-2'}}</ion-label>
+
+          </ion-item>
+        </ion-col>
+        <ion-col size="4">
+          <ion-item class="input">
+            <ion-label>{{paasing7 | number: '1.2-2'}}</ion-label>
+
+          </ion-item>
+        </ion-col>
+
+      </ion-row>
+
+
+      <ion-row>
+        <ion-col size="4">
+          <ion-item class="input">
+            <ion-label>{{cumwt8 | number: '1.2-2'}}</ion-label>
+
+          </ion-item>
+        </ion-col>
+        <ion-col size="4">
+          <ion-item class="input">
+            <ion-label>{{retainwt8 | number: '1.2-2'}}</ion-label>
+
+          </ion-item>
+        </ion-col>
+        <ion-col size="4">
+          <ion-item class="input">
+            <ion-label>{{paasing8  | number: '1.2-2'}}</ion-label>
 
           </ion-item>
         </ion-col>
@@ -664,7 +600,7 @@
       <ion-row>
         <ion-col size="3">
           <ion-item class="input">
-            <ion-label style="white-space: pre-wrap !important;">	30-70		</ion-label>
+            <ion-label style="white-space: pre-wrap !important;">30-70		</ion-label>
           </ion-item>
         </ion-col>
         <ion-col size="3">
@@ -806,7 +742,7 @@
 
         <ion-col size="6">
           <ion-item class="input">
-            <ion-label>{{total}} </ion-label>
+            <ion-label>{{total | number: '1.2-2'}} </ion-label>
           </ion-item>
         </ion-col>
       </ion-row>
@@ -822,7 +758,7 @@
 
         <ion-col size="6">
           <ion-item class="input">
-            <ion-label>{{moduls}}</ion-label>
+            <ion-label>{{moduls | number: '1.2-2'}}</ion-label>
           </ion-item>
         </ion-col>
       </ion-row>
@@ -854,6 +790,7 @@
           </ion-item>
         </ion-col>
       </ion-row>
+
 
       <ion-row>
         <ion-col size="6">
@@ -1060,4 +997,3 @@
   </ion-list>
 
 </ion-content>
-

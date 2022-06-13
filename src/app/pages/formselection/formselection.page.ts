@@ -21,10 +21,15 @@ export class FormselectionPage implements OnInit {
 
   ionViewDidEnter(){
     this.worklist = Constants.schemedetailsList;
-
+ this.clearfields();
   }
 
   ngOnInit() {
+  }
+
+  clearfields(){
+    this.workid = null;
+    this.form = null;
   }
 
   workchange($event){

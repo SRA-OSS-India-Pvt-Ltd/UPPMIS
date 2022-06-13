@@ -5,7 +5,7 @@ import { HttpcallsserviceService } from './../../services/httpcallsservice.servi
 /* eslint-disable @typescript-eslint/semi */
 /* eslint-disable use-isnan */
 /* eslint-disable no-var */
-import { AlertController, Platform } from '@ionic/angular';
+import { AlertController, LoadingController, Platform } from '@ionic/angular';
 import { ToastserviceService } from './../../services/toastservice.service';
 import { Constants } from 'src/app/common/constants';
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
@@ -47,7 +47,7 @@ export class SeivePage implements AfterViewInit  {
   agrementNo: any;
   valOfContract: any;
   detailsList: any = [];
-  date3: any;
+  dates: any;
   joindate: any;
   stageOfwork: any;
   remarks: any;
@@ -63,7 +63,6 @@ export class SeivePage implements AfterViewInit  {
   upjnName: any;
   originalImage: any;
   originalImage2pic: any;
-  dates: any;
   materialSource: any;
   weightOfSample = 1000;
   weight1: any;
@@ -110,7 +109,8 @@ export class SeivePage implements AfterViewInit  {
 
     private platform: Platform,
     private httpSer: HttpcallsserviceService,
-    private router: Router
+    private router: Router,
+    private loadingController: LoadingController
     ) {
 this.setViews();
    }
@@ -135,7 +135,7 @@ this.setViews();
      this.agrementNo = this.detailsList[0].agreement_no;
      this.valOfContract = this.detailsList[0].tender_value;
    }
-   this.date3 = new Date().toISOString();
+   this.dates = new Date().toISOString();
    this.joindate =new Date().toLocaleString();
 
   }
@@ -539,11 +539,11 @@ let f19;
     }
 
     submit(){
-      if(this.date3 === undefined){
+      if(this.dates === undefined){
         this.toastSer.presentError('Please Enter Date of testing	')
-      }else if(this.date3 === null){
+      }else if(this.dates === null){
         this.toastSer.presentError('Please Enter Date of testing	')
-      }else if(this.date3 === ''){
+      }else if(this.dates === ''){
         this.toastSer.presentError('Please Enter Date of testing	')
       }else if(this.materialSource === undefined){
         this.toastSer.presentError('Please Enter Material Source			')
@@ -667,6 +667,7 @@ let f19;
     'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAACWCAYAAABkW7XSAAAAAXNSR0IArs4c6QAABGJJREFUeF7t1AEJAAAMAsHZv/RyPNwSyDncOQIECEQEFskpJgECBM5geQICBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAgQdWMQCX4yW9owAAAABJRU5ErkJggg==' ) {
     this.toastSer.presentError('please Enter the UPJN Signature' );
    }else{
+     this.autoLoader();
      this.callService();
    }
     }
@@ -680,7 +681,7 @@ let f19;
           if(window.navigator.connection.type === 'none'){
             this.toastSer.presentError('Please check your internet connection');
          }else{
-          this.httpSer.addSieveTest(Constants.workId,Constants.empid,this.date3,this.materialSource,this.stageOfwork,
+          this.httpSer.addSieveTest(Constants.workId,Constants.empid,this.dates,this.materialSource,this.stageOfwork,
             this.weight1,this.cumwt1,this.retainwt1,this.paasing1,
             this.weight2,this.cumwt2,this.retainwt2,this.paasing2,
             this.weight3,this.cumwt3,this.retainwt3,this.paasing3,
@@ -689,6 +690,7 @@ let f19;
             this.weight6,this.cumwt6,this.retainwt6,this.paasing6,
             this.weight7,this.cumwt7,this.retainwt7,this.paasing7,
             this.weight8,this.cumwt8,this.retainwt8,this.paasing8,
+            this.total,this.moduls,
 
             this.remarks,this.waterMarkImage.nativeElement.src,
             this.waterMarkImage2.nativeElement.src,this.signaturePad.toDataURL(),this.contractorName,
@@ -705,7 +707,7 @@ let f19;
           }
 
         }else{
-          this.httpSer.addSieveTest(Constants.workId,Constants.empid,this.date3,this.materialSource,this.stageOfwork,
+          this.httpSer.addSieveTest(Constants.workId,Constants.empid,this.dates,this.materialSource,this.stageOfwork,
             this.weight1,this.cumwt1,this.retainwt1,this.paasing1,
             this.weight2,this.cumwt2,this.retainwt2,this.paasing2,
             this.weight3,this.cumwt3,this.retainwt3,this.paasing3,
@@ -714,7 +716,7 @@ let f19;
             this.weight6,this.cumwt6,this.retainwt6,this.paasing6,
             this.weight7,this.cumwt7,this.retainwt7,this.paasing7,
             this.weight8,this.cumwt8,this.retainwt8,this.paasing8,
-
+            this.total,this.moduls,
             this.remarks,this.waterMarkImage.nativeElement.src,
             this.waterMarkImage2.nativeElement.src,this.signaturePad.toDataURL(),this.contractorName,
             this.signaturePad1.toDataURL(),this.upjnName,this.signaturePad2.toDataURL()).subscribe((response: any)=>{
@@ -731,6 +733,19 @@ let f19;
         }
       });
 
+    }
+
+    autoLoader() {
+      this.loadingController.create({
+        spinner:'lines',
+        message: 'Uploading Data. Please do not close or click back button ',
+        duration: 20000
+      }).then((response) => {
+        response.present();
+        response.onDidDismiss().then((response1) => {
+          console.log('Loader dismissed', response);
+        });
+      });
     }
 }
 

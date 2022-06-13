@@ -5,7 +5,7 @@ import { HttpcallsserviceService } from './../../services/httpcallsservice.servi
 /* eslint-disable @typescript-eslint/semi */
 /* eslint-disable use-isnan */
 /* eslint-disable no-var */
-import { AlertController, Platform } from '@ionic/angular';
+import { AlertController, LoadingController, Platform } from '@ionic/angular';
 import { ToastserviceService } from './../../services/toastservice.service';
 import { Constants } from 'src/app/common/constants';
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
@@ -47,7 +47,6 @@ export class Cccube28Page implements AfterViewInit {
   detailsList: any = [];
   date3: any;
   joindate: any;
-  stageOfwork: any;
   remarks: any;
   latitude: any;
   longitude: any;
@@ -102,7 +101,8 @@ export class Cccube28Page implements AfterViewInit {
     private alertCtrl: AlertController,
     private platform: Platform,
     private httpSer: HttpcallsserviceService,
-    private router: Router
+    private router: Router,
+    private loadingController: LoadingController
     ) {
 this.setViews();
    }
@@ -211,11 +211,11 @@ this.setViews();
 
 
       watermark([this.blobImage])
-      .image(watermark.text.atPos(this.xy78,this.y63,'Latitude: '+this.latitude, '20px Josefin Slab', '#FC0535', 0.5))
+      .image(watermark.text.atPos(this.xy78,this.y63,'Latitude: '+this.latitude, '10px bold', '#FF0000', 0))
       .load('assets/icon/rv.png')
-    .image(watermark.text.atPos(this.xy78,this.y83,'Longitude: '+this.longitude, '20px Josefin Slab', '#FC0535', 0.5, 48))
+    .image(watermark.text.atPos(this.xy78,this.y83,'Longitude: '+this.longitude, '10px bold', '#FF0000', 0, 48))
     .load('assets/icon/rv.png')
-    .image(watermark.text.atPos(this.xy78,this.y103,'Date: '+this.joindate, '20px Josefin Slab', '#FC0535', 0.5, 48))
+    .image(watermark.text.atPos(this.xy78,this.y103,'Date: '+this.joindate, '10px bold', '#FF0000', 0, 48))
 
 
     .then((img)=> {
@@ -232,11 +232,11 @@ this.setViews();
 
 
       watermark([this.blobImagepic2])
-      .image(watermark.text.atPos(this.xy78,this.y63,'Latitude: '+this.latitude, '20px Josefin Slab', '#FC0535', 0.5))
+      .image(watermark.text.atPos(this.xy78,this.y63,'Latitude: '+this.latitude, '10px bold', '#FF0000', 0))
       .load('assets/icon/rv.png')
-    .image(watermark.text.atPos(this.xy78,this.y83,'Longitude: '+this.longitude, '20px Josefin Slab', '#FC0535', 0.5, 48))
+    .image(watermark.text.atPos(this.xy78,this.y83,'Longitude: '+this.longitude, '10px bold', '#FF0000', 0, 48))
     .load('assets/icon/rv.png')
-    .image(watermark.text.atPos(this.xy78,this.y103,'Date: '+this.joindate, '20px Josefin Slab', '#FC0535', 0.5, 48))
+    .image(watermark.text.atPos(this.xy78,this.y103,'Date: '+this.joindate, '10px bold', '#FF0000', 0, 48))
 
 
     .then((img)=> {
@@ -253,13 +253,13 @@ this.setViews();
       return 28;
     };
     y63(coffee, metrics, context) {
-      return 143;
+      return 63;
     };
     y83(coffee, metrics, context) {
-      return 163;
+      return 73;
     };
     y103(coffee, metrics, context) {
-      return 183;
+      return 83;
     };
     clear1() {
       this.signaturePad.clear();
@@ -367,9 +367,11 @@ this.setViews();
       if(h11 !== undefined && h11 !== '' && h11 !== null &&
       h12 !== undefined && h12 !== '' && h12 !== null &&
       h13 !== undefined && h13 !== '' && h13 !== null){
-
-        j11 = (h11+h12+h12)/3;
+        var sum =h11+h12+h13;
+        j11 = (sum)/3
+        console.log('avg',j11);
         if(j11 !== NaN){
+          this.avgStrength = j11;
           if(j11 >=25){
             this.remarks = 'The tested sample is confirming to IS: 456 2000'
           }else{
@@ -401,10 +403,23 @@ this.setViews();
 
         const date1 = this.castdate1.substring(8, 10);
         const date2 = this.casttest1.substring(8, 10);
-        const diff = date1 - date2;
+        if(date2> date1){
+        const diff = date2 - date1;
         if(diff !==  NaN){
-        this.age1 = diff + 1;
+
+          this.age1 = diff;
         console.log('days', this.age1);
+
+        }
+        }else{
+          const diff = date1 - date2;
+          if(diff !==  NaN){
+
+            this.age1 = diff;
+          console.log('days', this.age1);
+
+          }
+
         }
 
 
@@ -416,10 +431,20 @@ this.setViews();
 
         const date1 = this.castdate2.substring(8, 10);
         const date2 = this.casttest2.substring(8, 10);
-        const diff = date1 - date2;
-        if(diff !==  NaN){
-        this.age2 = diff + 1;
-        console.log('days2', this.age2);
+        if(date2> date1){
+          const diff = date2 - date1;
+          if(diff !==  NaN){
+          this.age2 = diff ;
+          console.log('days2', this.age2);
+          }
+
+        }else{
+          const diff = date1 - date2;
+          if(diff !==  NaN){
+          this.age2 = diff ;
+          console.log('days2', this.age2);
+          }
+
         }
 
 
@@ -431,11 +456,22 @@ this.setViews();
 
         const date1 = this.castdate3.substring(8, 10);
         const date2 = this.casttest3.substring(8, 10);
-        const diff = date1 - date2;
-        if(diff !==  NaN){
-        this.age3 = diff + 1;
-        console.log('days3', this.age3);
+        if(date2> date1){
+          const diff = date2 - date1;
+          if(diff !==  NaN){
+          this.age3 = diff ;
+          console.log('days3', this.age3);
+          }
+
+        }else{
+          const diff = date1 - date2;
+          if(diff !==  NaN){
+          this.age3 = diff ;
+          console.log('days3', this.age3);
+          }
+
         }
+
 
 
       }
@@ -447,23 +483,28 @@ this.setViews();
     }
 
     submit(){
-      if(this.date3 === undefined){
-        this.toastSer.presentError('Please Enter Date of testing	')
-      }else if(this.date3 === null){
-        this.toastSer.presentError('Please Enter Date of testing	')
-      }else if(this.date3 === ''){
-        this.toastSer.presentError('Please Enter Date of testing	')
-      }else if(this.gradeOfConcrete === undefined){
+      if(this.department === undefined){
+        this.toastSer.presentError('Please Select Department	')
+
+      }else if(this.department === null){
+        this.toastSer.presentError('Please Select Department	')
+
+      }else if(this.department === ''){
+        this.toastSer.presentError('Please Select Department	')
+
+      }
+
+       else if(this.gradeOfConcrete === undefined){
         this.toastSer.presentError('Please Enter Grade of Concrete				')
       }else if(this.gradeOfConcrete === null){
         this.toastSer.presentError('Please Enter Grade of Concrete				')
       }else if(this.gradeOfConcrete === ''){
         this.toastSer.presentError('Please Enter Grade of Concrete				')
-      }else if(this.stageOfwork === undefined){
+      }else if(this.stagework === undefined){
         this.toastSer.presentError('Please Enter Stage of work		')
-      }else if(this.stageOfwork === null){
+      }else if(this.stagework === null){
         this.toastSer.presentError('Please Enter Stage of work		')
-      }else if(this.stageOfwork === ''){
+      }else if(this.stagework === ''){
         this.toastSer.presentError('Please Enter Stage of work		')
       }else if(this.quantityOfConcrete === undefined){
         this.toastSer.presentError('Please Enter Quantity of concrete laid in m		')
@@ -471,7 +512,14 @@ this.setViews();
         this.toastSer.presentError('Please Enter Quantity of concrete laid in m		')
       }else if(this.quantityOfConcrete === null){
         this.toastSer.presentError('Please Enter Quantity of concrete laid in m		')
-      }else if(this.castdate1 === undefined){
+      }else if(this.noofsamples === undefined){
+        this.toastSer.presentError('Please Enter Number of Samples		')
+      }else if(this.noofsamples === ''){
+        this.toastSer.presentError('Please Enter Number of Samples		')
+      }else if(this.noofsamples === null){
+        this.toastSer.presentError('Please Enter Number of Samples		')
+      }
+      else if(this.castdate1 === undefined){
         this.toastSer.presentError('Please Enter Date of Casting 1	')
       }else if(this.castdate1 === ''){
         this.toastSer.presentError('Please Enter Date of Casting 1	')
@@ -576,6 +624,7 @@ this.setViews();
     'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAACWCAYAAABkW7XSAAAAAXNSR0IArs4c6QAABGJJREFUeF7t1AEJAAAMAsHZv/RyPNwSyDncOQIECEQEFskpJgECBM5geQICBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAgQdWMQCX4yW9owAAAABJRU5ErkJggg==' ) {
     this.toastSer.presentError('please Enter the UPJN Signature' );
    }else{
+     this.autoLoader();
      this.callService();
    }
     }
@@ -590,11 +639,12 @@ this.setViews();
             this.toastSer.presentError('Please check your internet connection');
          }else{
             this.httpSer.addCC_Cube_28Test(Constants.workId,Constants.empid,this.department,this.quantityOfConcrete,
-              this.gradeOfConcrete,this.stageOfwork,
+              this.gradeOfConcrete,this.stagework,
               this.castdate1,this.casttest1,this.age1,this.density1,this.load1,this.strength1,this.avgStrength,this.charstr1,this.smplacce1,
               this.castdate2,this.casttest2,this.age2,this.density2,this.load2,this.strength2,this.charstr2,this.smplacce2,
               this.castdate3,this.casttest3,this.age3,this.density3,this.load3,this.strength3,this.charstr3,this.smplacce3,
-              this.remarks,this.waterMarkImage.nativeElement.src,
+              this.remarks,this.weight1,this.weight2,this.weight3,
+              this.waterMarkImage.nativeElement.src,
               this.waterMarkImage2.nativeElement.src,this.signaturePad.toDataURL(),this.contractorName,
               this.signaturePad1.toDataURL(),this.upjnName,this.signaturePad2.toDataURL()).subscribe((response: any)=>{
 
@@ -611,11 +661,12 @@ this.setViews();
 
         }else{
           this.httpSer.addCC_Cube_28Test(Constants.workId,Constants.empid,this.department,this.quantityOfConcrete,
-            this.gradeOfConcrete,this.stageOfwork,
+            this.gradeOfConcrete,this.stagework,
             this.castdate1,this.casttest1,this.age1,this.density1,this.load1,this.strength1,this.avgStrength,this.charstr1,this.smplacce1,
             this.castdate2,this.casttest2,this.age2,this.density2,this.load2,this.strength2,this.charstr2,this.smplacce2,
             this.castdate3,this.casttest3,this.age3,this.density3,this.load3,this.strength3,this.charstr3,this.smplacce3,
-            this.remarks,this.waterMarkImage.nativeElement.src,
+            this.remarks,this.weight1,this.weight2,this.weight3,
+            this.waterMarkImage.nativeElement.src,
             this.waterMarkImage2.nativeElement.src,this.signaturePad.toDataURL(),this.contractorName,
             this.signaturePad1.toDataURL(),this.upjnName,this.signaturePad2.toDataURL()).subscribe((response: any)=>{
 
@@ -632,6 +683,19 @@ this.setViews();
         }
       });
 
+    }
+
+    autoLoader() {
+      this.loadingController.create({
+        spinner:'lines',
+        message: 'Uploading Data. Please do not close or click back button ',
+        duration: 20000
+      }).then((response) => {
+        response.present();
+        response.onDidDismiss().then((response1) => {
+          console.log('Loader dismissed', response);
+        });
+      });
     }
 
 }

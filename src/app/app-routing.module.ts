@@ -39,6 +39,31 @@ const routes: Routes = [
     path: 'coarsesingle',
     loadChildren: () => import('./pages/coarsesingle/coarsesingle.module').then( m => m.CoarsesinglePageModule)
   },
+  {
+    path: 'ca40',
+    loadChildren: () => import('./pages/ca40/ca40.module').then( m => m.Ca40PageModule)
+  },
+  {
+    path: 'ca20',
+    loadChildren: () => import('./pages/ca20/ca20.module').then( m => m.Ca20PageModule)
+  },
+  {
+    path: 'ca12',
+    loadChildren: () => import('./pages/ca12/ca12.module').then( m => m.Ca12PageModule)
+  },
+
+  {
+    path: 'steelunit',
+    loadChildren: () => import('./pages/steelunit/steelunit.module').then( m => m.SteelunitPageModule)
+  },
+  {
+    path: 'waterabsorption',
+    loadChildren: () => import('./pages/waterabsorption/waterabsorption.module').then( m => m.WaterabsorptionPageModule)
+  },
+  {
+    path: 'cccube07',
+    loadChildren: () => import('./pages/cccube07/cccube07.module').then( m => m.Cccube07PageModule)
+  },
 ];
 
 @NgModule({

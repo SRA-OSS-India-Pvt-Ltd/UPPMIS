@@ -5,7 +5,7 @@ import { HttpcallsserviceService } from './../../services/httpcallsservice.servi
 /* eslint-disable @typescript-eslint/semi */
 /* eslint-disable use-isnan */
 /* eslint-disable no-var */
-import { AlertController, Platform } from '@ionic/angular';
+import { AlertController, Platform, LoadingController } from '@ionic/angular';
 import { ToastserviceService } from './../../services/toastservice.service';
 import { Constants } from 'src/app/common/constants';
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
@@ -46,7 +46,7 @@ export class WaterabsorptionPage implements AfterViewInit  {
   agrementNo: any;
   valOfContract: any;
   detailsList: any = [];
-  date3: any;
+  dates: any;
   joindate: any;
   stageOfwork: any;
 
@@ -62,7 +62,6 @@ export class WaterabsorptionPage implements AfterViewInit  {
   upjnName: any;
   originalImage: any;
   originalImage2pic: any;
-  dates: any;
   weight1: any;
   weight2: any;
   weight3: any;
@@ -91,7 +90,8 @@ export class WaterabsorptionPage implements AfterViewInit  {
     private alertCtrl: AlertController,
     private platform: Platform,
     private httpSer: HttpcallsserviceService,
-    private router: Router
+    private router: Router,
+    private loadingController: LoadingController
     ) {
 this.setViews();
    }
@@ -116,7 +116,7 @@ this.setViews();
      this.agrementNo = this.detailsList[0].agreement_no;
      this.valOfContract = this.detailsList[0].tender_value;
    }
-   this.date3 = new Date().toISOString();
+   this.dates = new Date().toISOString();
    this.joindate =new Date().toLocaleString();
 
   }
@@ -355,11 +355,11 @@ let e15: any;
     }
 
     submit(){
-      if(this.date3 === undefined){
+      if(this.dates === undefined){
         this.toastSer.presentError('Please Enter Date of testing	')
-      }else if(this.date3 === null){
+      }else if(this.dates === null){
         this.toastSer.presentError('Please Enter Date of testing	')
-      }else if(this.date3 === ''){
+      }else if(this.dates === ''){
         this.toastSer.presentError('Please Enter Date of testing	')
       }
       else if(this.stageOfwork === undefined){
@@ -448,6 +448,7 @@ let e15: any;
     'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAACWCAYAAABkW7XSAAAAAXNSR0IArs4c6QAABGJJREFUeF7t1AEJAAAMAsHZv/RyPNwSyDncOQIECEQEFskpJgECBM5geQICBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAgQdWMQCX4yW9owAAAABJRU5ErkJggg==' ) {
     this.toastSer.presentError('please Enter the UPJN Signature' );
    }else{
+     this.autoLoader();
      this.callService();
    }
     }
@@ -461,7 +462,7 @@ let e15: any;
           if(window.navigator.connection.type === 'none'){
             this.toastSer.presentError('Please check your internet connection');
          }else{
-          this.httpSer.addWaterAbsTest(Constants.workId,Constants.empid,this.date3,this.stageOfwork,
+          this.httpSer.addWaterAbsTest(Constants.workId,Constants.empid,this.dates,this.stageOfwork,
             this.weight1,this.weight2,this.weight3,
             this.weight21,this.weight22,this.weight23,
             this.diff1,this.diff2,this.diff3,
@@ -482,7 +483,7 @@ let e15: any;
           }
 
         }else{
-          this.httpSer.addWaterAbsTest(Constants.workId,Constants.empid,this.date3,this.stageOfwork,
+          this.httpSer.addWaterAbsTest(Constants.workId,Constants.empid,this.dates,this.stageOfwork,
             this.weight1,this.weight2,this.weight3,
             this.weight21,this.weight22,this.weight23,
             this.diff1,this.diff2,this.diff3,
@@ -504,6 +505,19 @@ let e15: any;
         }
       });
 
+    }
+
+    autoLoader() {
+      this.loadingController.create({
+        spinner:'lines',
+        message: 'Uploading Data. Please do not close or click back button ',
+        duration: 20000
+      }).then((response) => {
+        response.present();
+        response.onDidDismiss().then((response1) => {
+          console.log('Loader dismissed', response);
+        });
+      });
     }
 }
 
