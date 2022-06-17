@@ -20,13 +20,13 @@ import SignaturePad from 'signature_pad';
   styleUrls: ['./steelunit.page.scss'],
 })
 export class SteelunitPage implements AfterViewInit  {
-  @ViewChild('previewimage') waterMarkImage: ElementRef;
-  @ViewChild('previewimage2') waterMarkImage2: ElementRef;
   @ViewChild('canvas') canvasEl: ElementRef;
   @ViewChild('canvas1') canvasEl1: ElementRef;
   @ViewChild('canvas2') canvasEl2: ElementRef;
 
 
+  imageElement: any;
+  oea: any;
 
   signaturePad;
   signaturePad1;
@@ -161,15 +161,7 @@ this.setViews();
       resultType: CameraResultType.Uri,
       source: CameraSource.Camera
     });
-
-    this.originalImage = image.webPath;
-
-    fetch(this.originalImage)
-    .then((res) => res.blob())
-    .then((blob) => {
-      this.blobImage = blob;
-      this.watermarkImage();
-    });
+    this.addTextWatermark(image.webPath)
 
   }
 
@@ -181,60 +173,53 @@ this.setViews();
       resultType: CameraResultType.Uri,
       source: CameraSource.Camera
     });
-
-    this.originalImage2pic = image.webPath;
-
-    fetch(this.originalImage2pic)
-    .then((res) => res.blob())
-    .then((blob) => {
-      this.blobImagepic2 = blob;
-      this.watermarkImagepic2();
-    });
+    this.addTextWatermark2(image.webPath)
 
   }
 
 
-    watermarkImage() {
-
-
-      watermark([this.blobImage])
-      .image(watermark.text.atPos(this.xy78,this.y63,'Latitude: '+this.latitude, '10px bold', '#FF0000', 0))
+  async addTextWatermark(base64String){
+    const result = await watermark([base64String])
+        .dataUrl(watermark.text.atPos(this.xy78,this.y63,'Latitude: '+this.latitude, '50px bold', '#FF0000', 0))
+        .load('assets/icon/rv.png')
+      .dataUrl(watermark.text.atPos(this.xy78,this.y83,'Longitude: '+this.longitude, '50px bold', '#FF0000', 0, 48))
       .load('assets/icon/rv.png')
-    .image(watermark.text.atPos(this.xy78,this.y83,'Longitude: '+this.longitude, '10px bold', '#FF0000', 0, 48))
-    .load('assets/icon/rv.png')
-    .image(watermark.text.atPos(this.xy78,this.y103,'Date: '+this.joindate, '10px bold', '#FF0000', 0, 48))
+      .dataUrl(watermark.text.atPos(this.xy78,this.y103,'Date: '+this.joindate, '50px bold', '#FF0000', 0, 48))
 
 
-    .then((img)=> {
-      console.log('Base 64 of one :', img);
+        .then( image  => {
+          console.log('img',image);
+          this.oea = image;
+          return image;
+        }).catch(error => {
+          console.log('img');
 
-    //document.getElementById('lower-left').appendChild(img);
-
-
-          this.waterMarkImage.nativeElement.src = img.src;
+         return 'error';
         });
-    }
+    return result;
+}
 
-    watermarkImagepic2() {
-
-
-      watermark([this.blobImagepic2])
-      .image(watermark.text.atPos(this.xy78,this.y63,'Latitude: '+this.latitude, '10px bold', '#FF0000', 0))
+async addTextWatermark2(base64String){
+  const result = await watermark([base64String])
+      .dataUrl(watermark.text.atPos(this.xy78,this.y63,'Latitude: '+this.latitude, '50px bold', '#FF0000', 0))
       .load('assets/icon/rv.png')
-    .image(watermark.text.atPos(this.xy78,this.y83,'Longitude: '+this.longitude, '10px bold', '#FF0000', 0, 48))
+    .dataUrl(watermark.text.atPos(this.xy78,this.y83,'Longitude: '+this.longitude, '50px bold', '#FF0000', 0, 48))
     .load('assets/icon/rv.png')
-    .image(watermark.text.atPos(this.xy78,this.y103,'Date: '+this.joindate, '10px bold', '#FF0000', 0, 48))
+    .dataUrl(watermark.text.atPos(this.xy78,this.y103,'Date: '+this.joindate, '50px bold', '#FF0000', 0, 48))
 
 
-    .then((img)=> {
-      console.log('Base 64 of one :', img);
+      .then( image  => {
+        console.log('img',image);
+        this.imageElement = image;
+        return image;
+      }).catch(error => {
+        console.log('img');
 
-    //document.getElementById('lower-left').appendChild(img);
+       return 'error';
+      });
+  return result;
+}
 
-
-          this.waterMarkImage2.nativeElement.src = img.src;
-        });
-    }
 
     xy78(coffee, metrics, context) {
       return 28;
@@ -243,12 +228,11 @@ this.setViews();
       return 63;
     };
     y83(coffee, metrics, context) {
-      return 73;
+      return 113;
     };
     y103(coffee, metrics, context) {
-      return 83;
+      return 163;
     };
-
     clear1() {
       this.signaturePad.clear();
     }
@@ -390,42 +374,42 @@ this.setViews();
         this.toastSer.presentError('Please Enter Grade of steel		')
       }
       else if(this.weight1 === undefined){
-        this.toastSer.presentError('Please Enter Standard Weight of Steel per Rmt in grms		 1	')
+        this.toastSer.presentError('Please Enter Actual Weight in grms			 1	')
       }else if(this.weight1 === null){
-        this.toastSer.presentError('Please Enter Standard Weight of Steel per Rmt in grms		 1	')
+        this.toastSer.presentError('Please Enter Actual Weight in grms			 1	')
       }else if(this.weight1 === ''){
-        this.toastSer.presentError('Please Enter Standard Weight of Steel per Rmt in grms		 1	')
+        this.toastSer.presentError('Please Enter Actual Weight in grms			 1	')
       }
       else if(this.weight2 === undefined){
-        this.toastSer.presentError('Please Enter Standard Weight of Steel per Rmt in grms		 2	')
+        this.toastSer.presentError('Please Enter Actual Weight in grms			 2	')
       }else if(this.weight2 === null){
-        this.toastSer.presentError('Please Enter Standard Weight of Steel per Rmt in grms		 2	')
+        this.toastSer.presentError('Please Enter Actual Weight in grms			 2	')
       }else if(this.weight2 === ''){
-        this.toastSer.presentError('Please Enter Standard Weight of Steel per Rmt in grms		 2	')
+        this.toastSer.presentError('Please Enter Actual Weight in grms			 2	')
       }
 
       else if(this.weight3 === undefined){
-        this.toastSer.presentError('Please Enter Standard Weight of Steel per Rmt in grms		 3	')
+        this.toastSer.presentError('Please Enter Actual Weight in grms			 3	')
       }else if(this.weight3 === null){
-        this.toastSer.presentError('Please Enter Standard Weight of Steel per Rmt in grms		 3	')
+        this.toastSer.presentError('Please Enter Actual Weight in grms			 3	')
       }else if(this.weight3 === ''){
-        this.toastSer.presentError('Please Enter Standard Weight of Steel per Rmt in grms		 3	')
+        this.toastSer.presentError('Please Enter Actual Weight in grms			 3	')
       }
 
       else if(this.weight4 === undefined){
-        this.toastSer.presentError('Please Enter Standard Weight of Steel per Rmt in grms		 4	')
+        this.toastSer.presentError('Please Enter Actual Weight in grms			 4	')
       }else if(this.weight4 === null){
-        this.toastSer.presentError('Please Enter Standard Weight of Steel per Rmt in grms		 4	')
+        this.toastSer.presentError('Please Enter Actual Weight in grms			 4	')
       }else if(this.weight4 === ''){
-        this.toastSer.presentError('Please Enter Standard Weight of Steel per Rmt in grms		 4	')
+        this.toastSer.presentError('Please Enter Actual Weight in grms			 4	')
       }
 
       else if(this.weight5 === undefined){
-        this.toastSer.presentError('Please Enter Standard Weight of Steel per Rmt in grms		 5	')
+        this.toastSer.presentError('Please Enter Actual Weight in grms			 5	')
       }else if(this.weight5 === null){
-        this.toastSer.presentError('Please Enter Standard Weight of Steel per Rmt in grms		 5	')
+        this.toastSer.presentError('Please Enter Actual Weight in grms			 5	')
       }else if(this.weight5 === ''){
-        this.toastSer.presentError('Please Enter Standard Weight of Steel per Rmt in grms		 5	')
+        this.toastSer.presentError('Please Enter Actual Weight in grms			 5	')
       }
       else if(this.remarks1 === undefined){
         this.toastSer.presentError('Please Enter Remarks 1')
@@ -469,9 +453,9 @@ this.setViews();
 
 
 
-      else if (this.waterMarkImage.nativeElement.src === null || this.waterMarkImage.nativeElement.src === '') {
+      else if (this.oea === undefined || this.oea === '') {
         this.toastSer.presentError('Please upload  Photograph1');
-      }else if (this.waterMarkImage2.nativeElement.src === null || this.waterMarkImage2.nativeElement.src === '') {
+      }else if (this.imageElement=== undefined || this.imageElement === '') {
         this.toastSer.presentError('Please upload  Photograph2');
       }else if (this.signaturePad.toDataURL() ===
         'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAACWCAYAAABkW7XSAAAAAXNSR0IArs4c6QAABGJJREFUeF7t1AEJAAAMAsHZv/RyPNwSyDncOQIECEQEFskpJgECBM5geQICBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAgQdWMQCX4yW9owAAAABJRU5ErkJggg==' ) {
@@ -512,8 +496,7 @@ this.setViews();
           this.httpSer.addSteelUnitWtTest(Constants.workId,Constants.empid,this.dates,this.gradeOfSteel,this.stageOfwork,
             395,617,888,1580,2470,this.weight1,this.weight2,this.weight3,this.weight4,this.weight5,
             this.diff1,this.diff2,this.diff3,this.diff4,this.diff5,this.observation1,this.observation2,this.observation3,this.observation4,this.observation5,
-            this.waterMarkImage.nativeElement.src,
-            this.waterMarkImage2.nativeElement.src,this.signaturePad.toDataURL(),this.contractorName,
+            this.oea,this.imageElement,this.signaturePad.toDataURL(),this.contractorName,
             this.signaturePad1.toDataURL(),this.upjnName,this.signaturePad2.toDataURL()).subscribe((response: any)=>{
                 if(response.error === false){
                   this.toastSer.presentSuccess(response.msg)
@@ -530,8 +513,7 @@ this.setViews();
           this.httpSer.addSteelUnitWtTest(Constants.workId,Constants.empid,this.dates,this.gradeOfSteel,this.stageOfwork,
             395,617,888,1580,2470,this.weight1,this.weight2,this.weight3,this.weight4,this.weight5,
             this.diff1,this.diff2,this.diff3,this.diff4,this.diff5,this.observation1,this.observation2,this.observation3,this.observation4,this.observation5,
-            this.waterMarkImage.nativeElement.src,
-            this.waterMarkImage2.nativeElement.src,this.signaturePad.toDataURL(),this.contractorName,
+            this.oea,this.imageElement,this.signaturePad.toDataURL(),this.contractorName,
             this.signaturePad1.toDataURL(),this.upjnName,this.signaturePad2.toDataURL()).subscribe((response: any)=>{
               if(response.error === false){
                 this.toastSer.presentSuccess(response.msg)

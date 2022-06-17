@@ -21,8 +21,6 @@ import SignaturePad from 'signature_pad';
   styleUrls: ['./seive.page.scss'],
 })
 export class SeivePage implements AfterViewInit  {
-  @ViewChild('previewimage') waterMarkImage: ElementRef;
-  @ViewChild('previewimage2') waterMarkImage2: ElementRef;
   @ViewChild('canvas') canvasEl: ElementRef;
   @ViewChild('canvas1') canvasEl1: ElementRef;
   @ViewChild('canvas2') canvasEl2: ElementRef;
@@ -102,7 +100,9 @@ export class SeivePage implements AfterViewInit  {
   paasing8: any;
   total: any;
   moduls: any;
-
+  imageElement: any;
+  oea: any;
+  dates1: any;
   constructor(
     private toastSer: ToastserviceService,
     private alertCtrl: AlertController,
@@ -173,6 +173,10 @@ this.setViews();
   }
 
 
+  datetimeValueChange(popoverEl) {
+    popoverEl.dismiss();
+  }
+
   async takePicture() {
     const image = await Camera.getPhoto({
       quality: 90,
@@ -181,15 +185,7 @@ this.setViews();
       resultType: CameraResultType.Uri,
       source: CameraSource.Camera
     });
-
-    this.originalImage = image.webPath;
-
-    fetch(this.originalImage)
-    .then((res) => res.blob())
-    .then((blob) => {
-      this.blobImage = blob;
-      this.watermarkImage();
-    });
+    this.addTextWatermark(image.webPath)
 
   }
 
@@ -201,59 +197,54 @@ this.setViews();
       resultType: CameraResultType.Uri,
       source: CameraSource.Camera
     });
-
-    this.originalImage2pic = image.webPath;
-
-    fetch(this.originalImage2pic)
-    .then((res) => res.blob())
-    .then((blob) => {
-      this.blobImagepic2 = blob;
-      this.watermarkImagepic2();
-    });
+    this.addTextWatermark2(image.webPath)
 
   }
 
-    watermarkImage() {
 
-
-      watermark([this.blobImage])
-      .image(watermark.text.atPos(this.xy78,this.y63,'Latitude: '+this.latitude, '10px bold', '#FF0000', 0))
+  async addTextWatermark(base64String){
+    const result = await watermark([base64String])
+        .dataUrl(watermark.text.atPos(this.xy78,this.y63,'Latitude: '+this.latitude, '50px bold', '#FF0000', 0))
+        .load('assets/icon/rv.png')
+      .dataUrl(watermark.text.atPos(this.xy78,this.y83,'Longitude: '+this.longitude, '50px bold', '#FF0000', 0, 48))
       .load('assets/icon/rv.png')
-    .image(watermark.text.atPos(this.xy78,this.y83,'Longitude: '+this.longitude, '10px bold', '#FF0000', 0, 48))
-    .load('assets/icon/rv.png')
-    .image(watermark.text.atPos(this.xy78,this.y103,'Date: '+this.joindate, '10px bold', '#FF0000', 0, 48))
+      .dataUrl(watermark.text.atPos(this.xy78,this.y103,'Date: '+this.joindate, '50px bold', '#FF0000', 0, 48))
 
 
-    .then((img)=> {
-      console.log('Base 64 of one :', img);
+        .then( image  => {
+          console.log('img',image);
+          this.oea = image;
+          return image;
+        }).catch(error => {
+          console.log('img');
 
-    //document.getElementById('lower-left').appendChild(img);
-
-
-          this.waterMarkImage.nativeElement.src = img.src;
+         return 'error';
         });
-    }
+    return result;
+}
 
-    watermarkImagepic2() {
 
-
-      watermark([this.blobImagepic2])
-      .image(watermark.text.atPos(this.xy78,this.y63,'Latitude: '+this.latitude, '10px bold', '#FF0000', 0))
+async addTextWatermark2(base64String){
+  const result = await watermark([base64String])
+      .dataUrl(watermark.text.atPos(this.xy78,this.y63,'Latitude: '+this.latitude, '50px bold', '#FF0000', 0))
       .load('assets/icon/rv.png')
-    .image(watermark.text.atPos(this.xy78,this.y83,'Longitude: '+this.longitude, '10px bold', '#FF0000', 0, 48))
+    .dataUrl(watermark.text.atPos(this.xy78,this.y83,'Longitude: '+this.longitude, '50px bold', '#FF0000', 0, 48))
     .load('assets/icon/rv.png')
-    .image(watermark.text.atPos(this.xy78,this.y103,'Date: '+this.joindate, '10px bold', '#FF0000', 0, 48))
+    .dataUrl(watermark.text.atPos(this.xy78,this.y103,'Date: '+this.joindate, '50px bold', '#FF0000', 0, 48))
 
 
-    .then((img)=> {
-      console.log('Base 64 of one :', img);
+      .then( image  => {
+        console.log('img',image);
+        this.imageElement = image;
+        return image;
+      }).catch(error => {
+        console.log('img');
 
-    //document.getElementById('lower-left').appendChild(img);
+       return 'error';
+      });
+  return result;
+}
 
-
-          this.waterMarkImage2.nativeElement.src = img.src;
-        });
-    }
 
     xy78(coffee, metrics, context) {
       return 28;
@@ -262,10 +253,10 @@ this.setViews();
       return 63;
     };
     y83(coffee, metrics, context) {
-      return 73;
+      return 113;
     };
     y103(coffee, metrics, context) {
-      return 83;
+      return 163;
     };
 
     clear1() {
@@ -438,11 +429,12 @@ let f19;
             this.remarks = 'The Tested sample Fine aggregate comes under Zone-1 as per Table-9 Clause 6.3 of IS 383-2016';
           }else if(f16<59.5){
             this.remarks ='The Tested sampleFine aggregate comes under Zone-2 as per Table-9 Clause 6.3 of IS 383-2016';
-          }else if(f17<79.5){}
+          }else if(f17<79.5){
           this.remarks ='The Tested sample Fine aggregate comes under Zone-3 as per Table-9 Clause 6.3 of IS 383-2016';
           }else {
             this.remarks = 'The Tested sample Fine aggregate comes under Zone-4 as per Table-9 Clause 6.3 of IS 383-2016';
           }
+        }
       }
 
 
@@ -539,6 +531,7 @@ let f19;
     }
 
     submit(){
+      console.log('imggg',this.oea);
       if(this.dates === undefined){
         this.toastSer.presentError('Please Enter Date of testing	')
       }else if(this.dates === null){
@@ -641,9 +634,10 @@ let f19;
       }else if(this.paasing1 === ''){
         this.toastSer.presentError('Please Enter % Passing	1	')
       }
-      else if (this.waterMarkImage.nativeElement.src === null || this.waterMarkImage.nativeElement.src === '') {
+      else if (this.oea === undefined || this.oea === '') {
         this.toastSer.presentError('Please upload  Photograph1');
-      }else if (this.waterMarkImage2.nativeElement.src === null || this.waterMarkImage2.nativeElement.src === '') {
+      }
+      else if (this.imageElement=== undefined || this.imageElement === '') {
         this.toastSer.presentError('Please upload  Photograph2');
       }else if (this.signaturePad.toDataURL() ===
         'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAACWCAYAAABkW7XSAAAAAXNSR0IArs4c6QAABGJJREFUeF7t1AEJAAAMAsHZv/RyPNwSyDncOQIECEQEFskpJgECBM5geQICBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAgQdWMQCX4yW9owAAAABJRU5ErkJggg==' ) {
@@ -692,8 +686,8 @@ let f19;
             this.weight8,this.cumwt8,this.retainwt8,this.paasing8,
             this.total,this.moduls,
 
-            this.remarks,this.waterMarkImage.nativeElement.src,
-            this.waterMarkImage2.nativeElement.src,this.signaturePad.toDataURL(),this.contractorName,
+            this.remarks,this.oea,
+            this.imageElement,this.signaturePad.toDataURL(),this.contractorName,
             this.signaturePad1.toDataURL(),this.upjnName,this.signaturePad2.toDataURL()).subscribe((response: any)=>{
                 if(response.error === false){
                   this.toastSer.presentSuccess(response.msg)
@@ -717,8 +711,8 @@ let f19;
             this.weight7,this.cumwt7,this.retainwt7,this.paasing7,
             this.weight8,this.cumwt8,this.retainwt8,this.paasing8,
             this.total,this.moduls,
-            this.remarks,this.waterMarkImage.nativeElement.src,
-            this.waterMarkImage2.nativeElement.src,this.signaturePad.toDataURL(),this.contractorName,
+            this.remarks,this.oea,
+            this.imageElement,this.signaturePad.toDataURL(),this.contractorName,
             this.signaturePad1.toDataURL(),this.upjnName,this.signaturePad2.toDataURL()).subscribe((response: any)=>{
               if(response.error === false){
                 this.toastSer.presentSuccess(response.msg)

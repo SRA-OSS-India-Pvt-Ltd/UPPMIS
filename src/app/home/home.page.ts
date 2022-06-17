@@ -61,31 +61,7 @@ export class HomePage {
 
 
          }else{
-           if(response.msg === 'No Details Found.'){
-            this.toastSer.presentError(response.msg);
-
-           }else{
-             Constants.empid = response.data.emp_id;
-             this.httpser.updatedeviceid(Constants.empid,'employee','').subscribe((response1: any)=>{
-              if(response1.error === false){
-                console.log('res1',response1);
-
-                this.httpser.logionService(userid,password,'employee','').subscribe((response2: any)=>{
-                  if(response2.error === false){
-
-                    Constants.empid = response2.data.emp_id;
-                  Constants.empName = response2.data.emp_name;
-                    this.router.navigate(['dashboard']);
-                    this.postData.employeeid = '';
-                    this.postData.epassword = '';
-
-
-                  }
-                });
-
-              }
-             });
-           }
+          this.toastSer.presentError(response.msg);
 
        }
     });

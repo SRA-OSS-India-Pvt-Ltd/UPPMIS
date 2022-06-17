@@ -110,7 +110,7 @@
 
             <ion-input value="{{ date3 | date: 'dd-MM-yyyy' }}" id="date3" >
             </ion-input>
-            <ion-popover trigger="date3" size="cover" [dismissOnSelect]="true">
+            <ion-popover trigger="date3" size="cover" >
               <ng-template>
                 <ion-datetime presentation="datesda" [(ngModel)]="date3"></ion-datetime>
               </ng-template>
@@ -514,7 +514,7 @@
 
 
 
-          <img id="multiple" #previewimage>
+          <ion-img [src]="oea"></ion-img>
 
 
 
@@ -543,7 +543,7 @@
 
 
 
-          <img id="multiple2" #previewimage2>
+          <ion-img [src]="imageElement"></ion-img>
 
 
 

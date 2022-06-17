@@ -7,7 +7,7 @@ export abstract class Constants {
   public static workId: any;
   public static workName: any;
 
-  //ionic build --prod -- --base-href /uppmis/
+  //ionic build --prod -- --base-href /uppms_testreports/
 // ionic cordova run browser --prod -- --base-href /borelogweb_v2_testing/
 
   //ionic build --prod -- --base-href /borelogweb_v2_testing/

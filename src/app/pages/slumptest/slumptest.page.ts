@@ -21,13 +21,13 @@ import SignaturePad from 'signature_pad';
   styleUrls: ['./slumptest.page.scss'],
 })
 export class SlumptestPage implements AfterViewInit {
-  @ViewChild('previewimage') waterMarkImage: ElementRef;
-  @ViewChild('previewimage2') waterMarkImage2: ElementRef;
   @ViewChild('canvas') canvasEl: ElementRef;
   @ViewChild('canvas1') canvasEl1: ElementRef;
   @ViewChild('canvas2') canvasEl2: ElementRef;
 
 
+  imageElement: any;
+  oea: any;
 
   signaturePad;
   signaturePad1;
@@ -145,15 +145,7 @@ this.setViews();
         resultType: CameraResultType.Uri,
         source: CameraSource.Camera
       });
-
-      this.originalImage = image.webPath;
-
-      fetch(this.originalImage)
-      .then((res) => res.blob())
-      .then((blob) => {
-        this.blobImage = blob;
-        this.watermarkImage();
-      });
+      this.addTextWatermark(image.webPath)
 
     }
 
@@ -165,70 +157,66 @@ this.setViews();
         resultType: CameraResultType.Uri,
         source: CameraSource.Camera
       });
-
-      this.originalImage2pic = image.webPath;
-
-      fetch(this.originalImage2pic)
-      .then((res) => res.blob())
-      .then((blob) => {
-        this.blobImagepic2 = blob;
-        this.watermarkImagepic2();
-      });
+      this.addTextWatermark2(image.webPath)
 
     }
 
 
-    watermarkImage() {
+    async addTextWatermark(base64String){
+      const result = await watermark([base64String])
+          .dataUrl(watermark.text.atPos(this.xy78,this.y63,'Latitude: '+this.latitude, '50px bold', '#FF0000', 0))
+          .load('assets/icon/rv.png')
+        .dataUrl(watermark.text.atPos(this.xy78,this.y83,'Longitude: '+this.longitude, '50px bold', '#FF0000', 0, 48))
+        .load('assets/icon/rv.png')
+        .dataUrl(watermark.text.atPos(this.xy78,this.y103,'Date: '+this.joindate, '50px bold', '#FF0000', 0, 48))
 
 
-      watermark([this.blobImage])
-      .image(watermark.text.atPos(this.xy78,this.y63,'Latitude: '+this.latitude, '10px bold', '#FF0000', 0))
+          .then( image  => {
+            console.log('img',image);
+            this.oea = image;
+            return image;
+          }).catch(error => {
+            console.log('img');
+
+           return 'error';
+          });
+      return result;
+  }
+
+  async addTextWatermark2(base64String){
+    const result = await watermark([base64String])
+        .dataUrl(watermark.text.atPos(this.xy78,this.y63,'Latitude: '+this.latitude, '50px bold', '#FF0000', 0))
+        .load('assets/icon/rv.png')
+      .dataUrl(watermark.text.atPos(this.xy78,this.y83,'Longitude: '+this.longitude, '50px bold', '#FF0000', 0, 48))
       .load('assets/icon/rv.png')
-    .image(watermark.text.atPos(this.xy78,this.y83,'Longitude: '+this.longitude, '10px bold', '#FF0000', 0, 48))
-    .load('assets/icon/rv.png')
-    .image(watermark.text.atPos(this.xy78,this.y103,'Date: '+this.joindate, '10px bold', '#FF0000', 0, 48))
+      .dataUrl(watermark.text.atPos(this.xy78,this.y103,'Date: '+this.joindate, '50px bold', '#FF0000', 0, 48))
 
 
-    .then((img)=> {
-      console.log('Base 64 of one :', img);
+        .then( image  => {
+          console.log('img',image);
+          this.imageElement = image;
+          return image;
+        }).catch(error => {
+          console.log('img');
 
-    //document.getElementById('lower-left').appendChild(img);
-
-
-          this.waterMarkImage.nativeElement.src = img.src;
+         return 'error';
         });
-    }
-
-    watermarkImagepic2() {
-
-
-      watermark([this.blobImagepic2])
-      .image(watermark.text.atPos(this.xy78,this.y63,'Latitude: '+this.latitude, '10px bold', '#FF0000', 0))
-      .load('assets/icon/rv.png')
-    .image(watermark.text.atPos(this.xy78,this.y83,'Longitude: '+this.longitude, '10px bold', '#FF0000', 0, 48))
-    .load('assets/icon/rv.png')
-    .image(watermark.text.atPos(this.xy78,this.y103,'Date: '+this.joindate, '10px bold', '#FF0000', 0, 48))
+    return result;
+  }
 
 
-    .then((img)=> {
-      console.log('Base 64 of one :', img);
-          this.waterMarkImage2.nativeElement.src = img.src;
-        });
-    }
-
-    xy78(coffee, metrics, context) {
-      return 28;
-    };
-    y63(coffee, metrics, context) {
-      return 63;
-    };
-    y83(coffee, metrics, context) {
-      return 73;
-    };
-    y103(coffee, metrics, context) {
-      return 83;
-    };
-    clear1() {
+      xy78(coffee, metrics, context) {
+        return 28;
+      };
+      y63(coffee, metrics, context) {
+        return 63;
+      };
+      y83(coffee, metrics, context) {
+        return 113;
+      };
+      y103(coffee, metrics, context) {
+        return 163;
+      };  clear1() {
       this.signaturePad.clear();
     }
     clear2() {
@@ -298,9 +286,9 @@ this.setViews();
         this.toastSer.presentError('Please Enter Height of the subsided concrete			')
       }else if(this.heightOfSubsided === ''){
         this.toastSer.presentError('Please Enter Height of the subsided concrete				')
-      }else if (this.waterMarkImage.nativeElement.src === null || this.waterMarkImage.nativeElement.src === '') {
+      }else if (this.oea === undefined || this.oea === '') {
         this.toastSer.presentError('Please upload  Photograph1');
-      }else if (this.waterMarkImage2.nativeElement.src === null || this.waterMarkImage2.nativeElement.src === '') {
+      }else if (this.imageElement=== undefined || this.imageElement === '') {
         this.toastSer.presentError('Please upload  Photograph2');
       }else if (this.signaturePad.toDataURL() ===
         'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAACWCAYAAABkW7XSAAAAAXNSR0IArs4c6QAABGJJREFUeF7t1AEJAAAMAsHZv/RyPNwSyDncOQIECEQEFskpJgECBM5geQICBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAAYPlBwgQyAgYrExVghIgYLD8AAECGQGDlalKUAIEDJYfIEAgI2CwMlUJSoCAwfIDBAhkBAxWpipBCRAwWH6AAIGMgMHKVCUoAQIGyw8QIJARMFiZqgQlQMBg+QECBDICBitTlaAECBgsP0CAQEbAYGWqEpQAgQdWMQCX4yW9owAAAABJRU5ErkJggg==' ) {
@@ -340,8 +328,7 @@ this.setViews();
          }else{
             this.httpSer.addSlumpTest(Constants.workId,Constants.empid,this.date2,this.gradeofConcrete,this.stageOfwork,
               this.heightOfSubsided,this.slumpDiffere,
-              this.remarks,this.waterMarkImage.nativeElement.src,
-              this.waterMarkImage2.nativeElement.src,this.signaturePad.toDataURL(),this.contractorName,
+              this.remarks,this.oea,this.imageElement,this.signaturePad.toDataURL(),this.contractorName,
               this.signaturePad1.toDataURL(),this.upjnName,this.signaturePad2.toDataURL()).subscribe((response: any)=>{
 
                 if(response.error === false){
@@ -358,8 +345,7 @@ this.setViews();
         }else{
           this.httpSer.addSlumpTest(Constants.workId,Constants.empid,this.date2,this.gradeofConcrete,this.stageOfwork,
             this.heightOfSubsided,this.slumpDiffere,
-            this.remarks,this.waterMarkImage.nativeElement.src,
-            this.waterMarkImage2.nativeElement.src,this.signaturePad.toDataURL(),this.contractorName,
+            this.remarks,this.oea,this.imageElement,this.signaturePad.toDataURL(),this.contractorName,
             this.signaturePad1.toDataURL(),this.upjnName,this.signaturePad2.toDataURL()).subscribe((response: any)=>{
 
               if(response.error === false){

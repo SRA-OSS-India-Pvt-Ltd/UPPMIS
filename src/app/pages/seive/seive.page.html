@@ -116,14 +116,36 @@
 
             <ion-input value="{{ dates | date: 'dd-MM-yyyy' }}" id="dates" >
             </ion-input>
-            <ion-popover trigger="dates" size="cover" [dismissOnSelect]="true">
+            <ion-popover  trigger="dates" size="cover" >
               <ng-template>
-                <ion-datetime presentation="datesda345" [(ngModel)]="dates"></ion-datetime>
+                <ion-datetime presentation="datesda345" [(ngModel)]="dates" ></ion-datetime>
               </ng-template>
             </ion-popover>
           </ion-item>
         </ion-col>
       </ion-row>
+
+
+      <!-- <ion-row>
+
+        <ion-col size="12">
+          <ion-item class="padding">
+            <ion-label>Date of Testing2</ion-label>
+            </ion-item>
+            <ion-item class="input">
+
+            <ion-input value="{{ dates1 | date: 'dd-MM-yyyy' }}" id="dates1" >
+            </ion-input>
+            <ion-popover #dateInputPopover trigger="open-date-input">
+              <ion-datetime (ionChange)="datetimeValueChange(dateInputPopover)"></ion-datetime>
+           </ion-popover>
+
+                     </ion-item>
+        </ion-col>
+      </ion-row> -->
+
+
+
 
 
 
@@ -705,30 +727,7 @@
       </ion-row>
 
 
-      <ion-row>
-        <ion-col size="3">
-          <ion-item class="input">
-            <ion-label style="white-space: pre-wrap !important;">		</ion-label>
-          </ion-item>
-        </ion-col>
-        <ion-col size="3">
-          <ion-item class="input">
-            <ion-label style="white-space: pre-wrap !important;"> 	</ion-label>
-          </ion-item>
-        </ion-col>
-        <ion-col size="3">
-          <ion-item class="input">
-            <ion-label style="white-space: pre-wrap !important;"></ion-label>
-          </ion-item>
-        </ion-col>
-        <ion-col size="3">
-          <ion-item class="input">
-            <ion-label style="white-space: pre-wrap !important;">0-5            </ion-label>
-          </ion-item>
-        </ion-col>
 
-
-      </ion-row>
 
 
       <ion-row>
@@ -831,10 +830,7 @@
         </ion-col>
 
         <ion-col size="4">
-
-
-
-          <img id="multiple" #previewimage>
+          <ion-img [src]="oea"></ion-img>
 
 
 
@@ -860,10 +856,7 @@
         </ion-col>
 
         <ion-col size="4">
-
-
-
-          <img id="multiple2" #previewimage2>
+          <ion-img [src]="imageElement"></ion-img>
 
 
 

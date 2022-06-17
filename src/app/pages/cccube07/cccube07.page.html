@@ -192,7 +192,8 @@
         </ion-col>
         <ion-col size="6">
           <ion-item class="input">
-            <ion-input type="number"  [(ngModel)]="noofsamples"></ion-input>
+            <ion-label> {{noofsamples}} </ion-label>
+
           </ion-item>
         </ion-col>
       </ion-row>
@@ -206,7 +207,7 @@
 
             <ion-input value="{{ castdate1 | date: 'dd-MM-yyyy' }}" id="castdate1" >
             </ion-input>
-            <ion-popover trigger="castdate1" size="cover" [dismissOnSelect]="true">
+            <ion-popover trigger="castdate1" size="cover" >
               <ng-template>
                 <ion-datetime presentation="datecast" [(ngModel)]="castdate1"  (ngModelChange)="datesListioners()"></ion-datetime>
               </ng-template>
@@ -243,7 +244,7 @@
 
             <ion-input value="{{ castdate2 | date: 'dd-MM-yyyy' }}" id="castdate2" >
             </ion-input>
-            <ion-popover trigger="castdate2" size="cover" [dismissOnSelect]="true">
+            <ion-popover trigger="castdate2" size="cover" >
               <ng-template>
                 <ion-datetime presentation="datecast2" [(ngModel)]="castdate2" (ngModelChange)="datesListioners()"></ion-datetime>
               </ng-template>
@@ -279,7 +280,7 @@
 
             <ion-input value="{{ castdate3 | date: 'dd-MM-yyyy' }}" id="castdate3" >
             </ion-input>
-            <ion-popover trigger="castdate3" size="cover"  [dismissOnSelect]="true">
+            <ion-popover trigger="castdate3" size="cover"  >
               <ng-template>
                 <ion-datetime presentation="datecast3" [(ngModel)]="castdate3" (ngModelChange)="datesListioners()"></ion-datetime>
               </ng-template>
@@ -310,7 +311,7 @@
 
 
       <ion-row>
-        <ion-col size="2">
+        <ion-col size="3">
           <ion-item class="padding">
             <ion-label style="white-space: pre-wrap !important;"><strong>Sno</strong></ion-label>
           </ion-item>
@@ -321,7 +322,7 @@
           </ion-item>
 
         </ion-col>
-        <ion-col size="5">
+        <ion-col size="4">
           <ion-item class="padding">
             <ion-label style="white-space: pre-wrap !important;"><strong>weight of the cube (in gms)	</strong></ion-label>
           </ion-item>
@@ -400,7 +401,7 @@
 
 
       <ion-row>
-        <ion-col size="2">
+        <ion-col size="3">
           <ion-item class="padding">
             <ion-label style="white-space: pre-wrap !important;"><strong>Sno</strong></ion-label>
           </ion-item>
@@ -411,7 +412,7 @@
           </ion-item>
 
         </ion-col>
-        <ion-col size="5">
+        <ion-col size="4">
           <ion-item class="padding">
             <ion-label style="white-space: pre-wrap !important;"><strong>Load in KN(1 Tonne =10 KN)	</strong></ion-label>
           </ion-item>
@@ -543,7 +544,7 @@
 
 
 <ion-row>
-  <ion-col size="2">
+  <ion-col size="3">
     <ion-item class="padding">
       <ion-label style="white-space: pre-wrap !important;"><strong>Sno</strong></ion-label>
     </ion-item>
@@ -554,7 +555,7 @@
     </ion-item>
 
   </ion-col>
-  <ion-col size="5">
+  <ion-col size="4">
     <ion-item class="padding">
       <ion-label style="white-space: pre-wrap !important;"><strong>Sample acceptance criteria(+/- 15% of avg.)
       </strong></ion-label>
@@ -705,7 +706,7 @@
 
 
 
-          <img id="multiple" #previewimage>
+          <ion-img [src]="oea"></ion-img>
 
 
 
@@ -734,7 +735,7 @@
 
 
 
-          <img id="multiple2" #previewimage2>
+          <ion-img [src]="imageElement"></ion-img>
 
 
 
